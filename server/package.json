@@ -1,0 +1,32 @@
+{
+  "name": "eventhub-server",
+  "version": "1.0.0",
+  "description": "EventHub Backend – Student Event Registration API with Ticket & QR Code Generation",
+  "main": "index.js",
+  "scripts": {
+    "start": "node index.js",
+    "dev": "nodemon index.js"
+  },
+  "keywords": [
+    "event",
+    "registration",
+    "ticket",
+    "qrcode",
+    "firebase"
+  ],
+  "author": "",
+  "license": "ISC",
+  "dependencies": {
+    "cors": "^2.8.5",
+    "dotenv": "^16.4.7",
+    "eventhub": "file:..",
+    "express": "^4.21.2",
+    "firebase-admin": "^13.4.0",
+    "nodemailer": "^6.9.16",
+    "qrcode": "^1.5.4",
+    "uuid": "^11.1.0"
+  },
+  "devDependencies": {
+    "nodemon": "^3.1.14"
+  }
+}

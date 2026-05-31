@@ -1,0 +1,17 @@
+{
+  "name": "eventhub",
+  "version": "1.0.0",
+  "description": "EventHub – Student Event Registration Platform",
+  "private": true,
+  "scripts": {
+    "dev": "concurrently --names CLIENT,ADMIN,SERVER --prefix-colors cyan,magenta,yellow \"npm run dev --prefix client\" \"npm run dev --prefix admin\" \"npm run dev --prefix server\"",
+    "client": "npm run dev --prefix client",
+    "admin": "npm run dev --prefix admin",
+    "server": "npm run dev --prefix server",
+    "install:all": "npm install --prefix client && npm install --prefix admin && npm install --prefix server",
+    "build": "npm run build --prefix client && npm run build --prefix admin"
+  },
+  "devDependencies": {
+    "concurrently": "^9.1.2"
+  }
+}
