@@ -22,9 +22,141 @@ export default function ManageEventsPage() {
   const [emoji, setEmoji] = useState('📅');
   const [gradient, setGradient] = useState('linear-gradient(135deg, #6366f1 0%, #a855f7 100%)');
 
+  // Gallery Management States
+  const [managingGalleryEvent, setManagingGalleryEvent] = useState(null);
+  const [galleryPhotos, setGalleryPhotos] = useState([]);
+  const [galleryLoading, setGalleryLoading] = useState(false);
+  const [uploadingPhoto, setUploadingPhoto] = useState(false);
+  const [newPhotoCaption, setNewPhotoCaption] = useState('');
+  const [newPhotoImage, setNewPhotoImage] = useState(null);
+
   useEffect(() => {
     fetchEvents();
   }, []);
+
+  useEffect(() => {
+    if (managingGalleryEvent) {
+      fetchGalleryPhotos(managingGalleryEvent.id);
+    }
+  }, [managingGalleryEvent]);
+
+  const fetchGalleryPhotos = async (eventId) => {
+    setGalleryLoading(true);
+    try {
+      const res = await fetch(`http://localhost:5000/api/events/${eventId}/photos`);
+      const data = await res.json();
+      if (data.success) {
+        setGalleryPhotos(data.photos || []);
+      }
+    } catch (err) {
+      console.error("Error loading gallery photos:", err);
+    } finally {
+      setGalleryLoading(false);
+    }
+  };
+
+  const handleOpenGalleryModal = (evt) => {
+    setManagingGalleryEvent(evt);
+    setNewPhotoCaption('');
+    setNewPhotoImage(null);
+  };
+
+  const handlePhotoUploadChange = (e) => {
+    const file = e.target.files[0];
+    if (!file) return;
+
+    if (!file.type.startsWith('image/')) {
+      alert('Please select an image file (PNG, JPG, or JPEG).');
+      return;
+    }
+
+    const reader = new FileReader();
+    reader.onload = (event) => {
+      const img = new Image();
+      img.onload = () => {
+        const canvas = document.createElement('canvas');
+        let width = img.width;
+        let height = img.height;
+        
+        const MAX_WIDTH = 800;
+        const MAX_HEIGHT = 800;
+        
+        if (width > height) {
+          if (width > MAX_WIDTH) {
+            height *= MAX_WIDTH / width;
+            width = MAX_WIDTH;
+          }
+        } else {
+          if (height > MAX_HEIGHT) {
+            width *= MAX_HEIGHT / height;
+            height = MAX_HEIGHT;
+          }
+        }
+        
+        canvas.width = width;
+        canvas.height = height;
+        const ctx = canvas.getContext('2d');
+        ctx.drawImage(img, 0, 0, width, height);
+        
+        const dataUrl = canvas.toDataURL('image/jpeg', 0.7);
+        setNewPhotoImage(dataUrl);
+      };
+      img.src = event.target.result;
+    };
+    reader.readAsDataURL(file);
+  };
+
+  const handleUploadPhotoSubmit = async (e) => {
+    e.preventDefault();
+    if (!newPhotoImage) {
+      alert("Please choose a photo first.");
+      return;
+    }
+    setUploadingPhoto(true);
+    try {
+      const res = await fetch(`http://localhost:5000/api/events/${managingGalleryEvent.id}/photos`, {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({
+          image: newPhotoImage,
+          caption: newPhotoCaption
+        })
+      });
+      const data = await res.json();
+      if (data.success) {
+        setGalleryPhotos(prev => [data.photo, ...prev]);
+        setNewPhotoImage(null);
+        setNewPhotoCaption('');
+        const fileInput = document.getElementById('gallery-file-input');
+        if (fileInput) fileInput.value = '';
+      } else {
+        alert(data.message || "Failed to upload photo.");
+      }
+    } catch (err) {
+      console.error(err);
+      alert("Error uploading photo.");
+    } finally {
+      setUploadingPhoto(false);
+    }
+  };
+
+  const handleDeletePhoto = async (photoId) => {
+    if (!window.confirm("Are you sure you want to delete this photo?")) return;
+    try {
+      const res = await fetch(`http://localhost:5000/api/events/${managingGalleryEvent.id}/photos/${photoId}`, {
+        method: 'DELETE'
+      });
+      const data = await res.json();
+      if (data.success) {
+        setGalleryPhotos(prev => prev.filter(p => p.id !== photoId));
+      } else {
+        alert(data.message || "Failed to delete photo.");
+      }
+    } catch (err) {
+      console.error(err);
+      alert("Error deleting photo.");
+    }
+  };
 
   const fetchEvents = async () => {
     setLoading(true);
@@ -303,6 +435,9 @@ export default function ManageEventsPage() {
                         </td>
                         <td>
                           <div className="actions-cell">
+                            <button className="btn-gallery-manage" onClick={() => handleOpenGalleryModal(evt)} title="Manage Gallery">
+                              📸 Gallery
+                            </button>
                             <button className="btn-edit" onClick={() => handleOpenEditModal(evt)} title="Edit Event">
                               ✏️ Edit
                             </button>
@@ -459,6 +594,88 @@ export default function ManageEventsPage() {
                 </button>
               </div>
             </form>
+          </div>
+        </div>
+      )}
+
+      {/* GALLERY MANAGEMENT MODAL */}
+      {managingGalleryEvent && (
+        <div className="modal-overlay" onClick={() => setManagingGalleryEvent(null)}>
+          <div className="modal-content gallery-modal-content" onClick={(e) => e.stopPropagation()}>
+            <div className="modal-header">
+              <h2>📸 Gallery Manager</h2>
+              <button className="modal-close-btn" onClick={() => setManagingGalleryEvent(null)}>×</button>
+            </div>
+            
+            <div className="gallery-manager-body">
+              <div className="gallery-event-title-badge">
+                <strong>Event:</strong> {managingGalleryEvent.title}
+              </div>
+
+              {/* Upload Photo Section */}
+              <form onSubmit={handleUploadPhotoSubmit} className="gallery-upload-form">
+                <h3>Upload New Photo</h3>
+                <div className="gallery-upload-fields">
+                  <div className="form-group">
+                    <label>Choose Image</label>
+                    <input 
+                      type="file" 
+                      accept="image/*" 
+                      id="gallery-file-input"
+                      onChange={handlePhotoUploadChange}
+                      required={!newPhotoImage}
+                    />
+                    {newPhotoImage && (
+                      <div className="gallery-upload-preview">
+                        <img src={newPhotoImage} alt="Preview" />
+                        <button type="button" className="btn-remove-preview" onClick={() => setNewPhotoImage(null)}>✕</button>
+                      </div>
+                    )}
+                  </div>
+                  <div className="form-group">
+                    <label>Caption / Description</label>
+                    <input 
+                      type="text" 
+                      placeholder="e.g. Winner receiving the prize" 
+                      value={newPhotoCaption}
+                      onChange={(e) => setNewPhotoCaption(e.target.value)}
+                    />
+                  </div>
+                  <button type="submit" className="btn-save btn-upload-photo" disabled={uploadingPhoto || !newPhotoImage}>
+                    {uploadingPhoto ? "Uploading..." : "Upload to Gallery"}
+                  </button>
+                </div>
+              </form>
+
+              {/* Grid of Existing Photos */}
+              <div className="gallery-manager-grid-section">
+                <h3>Current Gallery ({galleryPhotos.length} photos)</h3>
+                {galleryLoading ? (
+                  <div className="gallery-manager-loading">Loading photos...</div>
+                ) : galleryPhotos.length === 0 ? (
+                  <div className="gallery-manager-empty">No photos in gallery yet. Upload some above!</div>
+                ) : (
+                  <div className="gallery-manager-grid">
+                    {galleryPhotos.map(photo => (
+                      <div key={photo.id} className="gallery-manager-item">
+                        <img src={photo.image} alt={photo.caption} />
+                        <div className="gallery-manager-item-overlay">
+                          <span className="gallery-manager-item-caption" title={photo.caption}>{photo.caption || "No Caption"}</span>
+                          <button 
+                            type="button" 
+                            className="btn-delete-photo" 
+                            onClick={() => handleDeletePhoto(photo.id)}
+                            title="Delete Photo"
+                          >
+                            🗑️ Delete
+                          </button>
+                        </div>
+                      </div>
+                    ))}
+                  </div>
+                )}
+              </div>
+            </div>
           </div>
         </div>
       )}

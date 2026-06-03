@@ -272,7 +272,7 @@ export default function ProfilePage({ user }) {
 
       {/* TABS */}
       <div className="profile-tabs">
-        {['About Me', 'Activity', 'Achievements', 'Preferences', 'Performance', 'History'].map(tab => {
+        {['About Me', 'Activity', 'Achievements', 'Preferences', 'History'].map(tab => {
           const tabId = tab.toLowerCase().replace(' ', '');
           return (
             <button 
@@ -480,51 +480,7 @@ export default function ProfilePage({ user }) {
             </div>
           </div>
 
-          <div className="profile-card">
-            <div className="card-title">
-              Performance Summary
-              <span className="view-all-link">View All</span>
-            </div>
-            
-            <div className="stats-grid">
-              <div className="stat-card">
-                <div className="stat-icon green">{Icons.trophy}</div>
-                <div className="stat-info">
-                  <span className="stat-value">{attendedCount}</span>
-                  <span className="stat-label">Events Attended</span>
-                </div>
-              </div>
-              <div className="stat-card">
-                <div className="stat-icon blue">{Icons.star}</div>
-                <div className="stat-info">
-                  <span className="stat-value">{pointsEarned}</span>
-                  <span className="stat-label">Points Earned</span>
-                </div>
-              </div>
-              <div className="stat-card">
-                <div className="stat-icon purple">{Icons.medal}</div>
-                <div className="stat-info">
-                  <span className="stat-value">{achievementsCount}</span>
-                  <span className="stat-label">Achievements</span>
-                </div>
-              </div>
-              <div className="stat-card">
-                <div className="stat-icon orange">{Icons.chart}</div>
-                <div className="stat-info">
-                  <span className="stat-value">{participationRate}%</span>
-                  <span className="stat-label">Participation Rate</span>
-                </div>
-              </div>
-            </div>
-
-            <div className="progress-section">
-              <span className="progress-text">Keep participating to unlock more achievements!</span>
-              <div className="progress-bar-bg">
-                <div className="progress-bar-fill" style={{width: `${participationRate}%`}}></div>
-              </div>
-              <span className="progress-percent">{participationRate}%</span>
-            </div>
-          </div>
+          {/* Performance Summary card removed */}
 
         </div>
       </div>

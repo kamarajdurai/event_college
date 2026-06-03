@@ -46,10 +46,12 @@ initFirebase();
 const registrationRoutes = require('./routes/registration');
 const eventRoutes = require('./routes/events');
 const announcementRoutes = require('./routes/announcements');
+const photoRoutes = require('./routes/photos');
 
 app.use('/api', registrationRoutes);
 app.use('/api', eventRoutes);
 app.use('/api/announcements', announcementRoutes);
+app.use('/api', photoRoutes);
 
 // ─── Health check ─────────────────────────────────────────────────────────────
 app.get('/', (_req, res) => {

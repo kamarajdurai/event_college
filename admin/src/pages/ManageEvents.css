@@ -587,3 +587,175 @@
     gap: 16px;
   }
 }
+
+.btn-gallery-manage {
+  background: #fff;
+  border: 1px solid var(--border);
+  color: var(--primary);
+  padding: 6px 12px;
+  font-size: 12.5px;
+  font-weight: 600;
+  border-radius: 6px;
+  cursor: pointer;
+  transition: all 0.15s;
+}
+.btn-gallery-manage:hover {
+  background: #eff6ff;
+  border-color: #3b82f6;
+}
+
+/* Gallery Modal Styles */
+.gallery-modal-content {
+  max-width: 800px;
+}
+.gallery-manager-body {
+  padding: 24px;
+  overflow-y: auto;
+  max-height: calc(90vh - 70px);
+  display: flex;
+  flex-direction: column;
+  gap: 24px;
+}
+.gallery-event-title-badge {
+  background: #f1f5f9;
+  border: 1px solid #e2e8f0;
+  padding: 10px 16px;
+  border-radius: 8px;
+  font-size: 14px;
+  color: var(--text-primary);
+}
+.gallery-upload-form {
+  border: 1px dashed #cbd5e1;
+  background: #f8fafc;
+  padding: 20px;
+  border-radius: 12px;
+}
+.gallery-upload-form h3 {
+  font-size: 15px;
+  margin: 0 0 16px 0;
+  color: var(--text-primary);
+  font-weight: 700;
+}
+.gallery-upload-fields {
+  display: grid;
+  grid-template-columns: 1fr 1fr auto;
+  gap: 16px;
+  align-items: flex-end;
+}
+@media (max-width: 640px) {
+  .gallery-upload-fields {
+    grid-template-columns: 1fr;
+  }
+}
+.gallery-upload-fields .form-group {
+  display: flex;
+  flex-direction: column;
+  gap: 6px;
+}
+.gallery-upload-fields label {
+  font-size: 11px;
+  font-weight: 700;
+  color: var(--text-secondary);
+  text-transform: uppercase;
+}
+.gallery-upload-fields input[type="file"] {
+  font-size: 12px;
+}
+.gallery-upload-preview {
+  margin-top: 8px;
+  position: relative;
+  width: fit-content;
+}
+.gallery-upload-preview img {
+  height: 60px;
+  border-radius: 6px;
+  object-fit: cover;
+  border: 1px solid var(--border);
+}
+.btn-remove-preview {
+  position: absolute;
+  top: -6px;
+  right: -6px;
+  background: #ef4444;
+  color: white;
+  border: none;
+  border-radius: 50%;
+  width: 16px;
+  height: 16px;
+  font-size: 10px;
+  cursor: pointer;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+.btn-upload-photo {
+  height: 42px;
+  align-self: flex-end;
+}
+.gallery-manager-grid-section h3 {
+  font-size: 15px;
+  margin: 0 0 16px 0;
+  color: var(--text-primary);
+  font-weight: 700;
+}
+.gallery-manager-loading, .gallery-manager-empty {
+  text-align: center;
+  padding: 40px;
+  color: var(--text-secondary);
+  font-size: 14px;
+}
+.gallery-manager-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(130px, 1fr));
+  gap: 12px;
+}
+.gallery-manager-item {
+  position: relative;
+  aspect-ratio: 4 / 3;
+  border-radius: 8px;
+  overflow: hidden;
+  border: 1px solid var(--border);
+  background: #f1f5f9;
+}
+.gallery-manager-item img {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+}
+.gallery-manager-item-overlay {
+  position: absolute;
+  inset: 0;
+  background: rgba(15, 23, 42, 0.75);
+  display: flex;
+  flex-direction: column;
+  justify-content: space-between;
+  padding: 8px;
+  opacity: 0;
+  transition: opacity 0.2s;
+}
+.gallery-manager-item:hover .gallery-manager-item-overlay {
+  opacity: 1;
+}
+.gallery-manager-item-caption {
+  color: white;
+  font-size: 11px;
+  text-overflow: ellipsis;
+  overflow: hidden;
+  white-space: nowrap;
+}
+.btn-delete-photo {
+  background: #ef4444;
+  color: white;
+  border: none;
+  border-radius: 4px;
+  padding: 4px;
+  font-size: 10px;
+  font-weight: 600;
+  cursor: pointer;
+  text-align: center;
+  align-self: stretch;
+}
+.btn-delete-photo:hover {
+  background: #dc2626;
+}
+

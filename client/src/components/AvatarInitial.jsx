@@ -34,7 +34,7 @@ const LETTER_GRADIENTS = [
 ];
 
 function getGradient(name) {
-  if (!name || name.trim() === '') return 'linear-gradient(135deg, #6366f1 0%, #a855f7 100%)';
+  if (!name || name.trim() === '') return 'linear-gradient(135deg, #3b82f6 0%, #06b6d4 100%)';
   const firstChar = name.trim()[0].toUpperCase();
   const code = firstChar.charCodeAt(0);
   if (code >= 65 && code <= 90) return LETTER_GRADIENTS[code - 65];
@@ -87,7 +87,7 @@ export default function AvatarInitial({ name, photoURL, size = 100, fontSize, st
         alignItems: 'center',
         justifyContent: 'center',
         border: '4px solid #fff',
-        boxShadow: '0 4px 16px rgba(99,102,241,0.25)',
+        boxShadow: '0 4px 16px rgba(59, 130, 246, 0.25)',
         flexShrink: 0,
         userSelect: 'none',
         ...style,

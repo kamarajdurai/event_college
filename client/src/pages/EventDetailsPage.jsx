@@ -44,8 +44,30 @@ export default function EventDetailsPage({ onBack, evt, user }) {
 
   const [ticket, setTicket] = useState(null);  // holds ticket after success
   const [showRegModal, setShowRegModal] = useState(false);
+  const [photos, setPhotos] = useState([]);
+  const [photosLoading, setPhotosLoading] = useState(false);
+  const [activeLightboxIndex, setActiveLightboxIndex] = useState(null);
 
+  useEffect(() => {
+    if (activeTab === 'Gallery') {
+      fetchPhotos();
+    }
+  }, [event.id, activeTab]);
 
+  const fetchPhotos = async () => {
+    setPhotosLoading(true);
+    try {
+      const res = await fetch(`${API_BASE}/events/${event.id}/photos`);
+      const data = await res.json();
+      if (res.ok && data.success) {
+        setPhotos(data.photos || []);
+      }
+    } catch (err) {
+      console.error("Error fetching event gallery:", err);
+    } finally {
+      setPhotosLoading(false);
+    }
+  };
 
   return (
     <>
@@ -112,7 +134,7 @@ export default function EventDetailsPage({ onBack, evt, user }) {
           {/* Tabs Content */}
           <div className="ed-content-card">
             <div className="ed-tabs">
-              {['About', 'Schedule', 'Prizes', 'Rules', 'FAQ'].map(t => (
+              {['About', 'Schedule', 'Prizes', 'Rules', 'FAQ', 'Gallery'].map(t => (
                 <button 
                   key={t} 
                   className={`ed-tab ${activeTab === t ? 'active' : ''}`}
@@ -125,51 +147,96 @@ export default function EventDetailsPage({ onBack, evt, user }) {
 
             <div className="ed-tab-content">
               {/* About Section */}
-              <div className="ed-about-layout">
-                <div className="ed-about-main">
-                  <h3 className="ed-section-title">About the Event</h3>
-                  <p className="ed-p">{event.title} is an amazing {event.category.toLowerCase()} where students come together to showcase their skills. Join us for a great experience!</p>
+              {activeTab === 'About' && (
+                <div className="ed-about-layout">
+                  <div className="ed-about-main">
+                    <h3 className="ed-section-title">About the Event</h3>
+                    <p className="ed-p">{event.title} is an amazing {event.category.toLowerCase()} where students come together to showcase their skills. Join us for a great experience!</p>
+                    
+                    <h4 className="ed-section-subtitle">What to Expect?</h4>
+                    <ul className="ed-checklist">
+                      <li><span className="ed-check-icon">{Icons.check}</span> Solve real-world problems</li>
+                      <li><span className="ed-check-icon">{Icons.check}</span> Learn from industry mentors</li>
+                      <li><span className="ed-check-icon">{Icons.check}</span> Exciting prizes and goodies</li>
+                      <li><span className="ed-check-icon">{Icons.check}</span> Networking with like-minded developers</li>
+                    </ul>
+                  </div>
                   
-                  <h4 className="ed-section-subtitle">What to Expect?</h4>
-                  <ul className="ed-checklist">
-                    <li><span className="ed-check-icon">{Icons.check}</span> Solve real-world problems</li>
-                    <li><span className="ed-check-icon">{Icons.check}</span> Learn from industry mentors</li>
-                    <li><span className="ed-check-icon">{Icons.check}</span> Exciting prizes and goodies</li>
-                    <li><span className="ed-check-icon">{Icons.check}</span> Networking with like-minded developers</li>
-                  </ul>
-                </div>
-                
-                <div className="ed-about-side">
-                  <div className="ed-side-item">
-                    <span className="ed-si-icon">{Icons.eventCat}</span>
-                    <div className="ed-si-text">
-                      <div className="ed-si-label">Event Type</div>
-                      <div className="ed-si-val">Team Event</div>
+                  <div className="ed-about-side">
+                    <div className="ed-side-item">
+                      <span className="ed-si-icon">{Icons.eventCat}</span>
+                      <div className="ed-si-text">
+                        <div className="ed-si-label">Event Type</div>
+                        <div className="ed-si-val">Team Event</div>
+                      </div>
                     </div>
-                  </div>
-                  <div className="ed-side-item">
-                    <span className="ed-si-icon">{Icons.usersGroup}</span>
-                    <div className="ed-si-text">
-                      <div className="ed-si-label">Team Size</div>
-                      <div className="ed-si-val">2 - 4 Members</div>
+                    <div className="ed-side-item">
+                      <span className="ed-si-icon">{Icons.usersGroup}</span>
+                      <div className="ed-si-text">
+                        <div className="ed-si-label">Team Size</div>
+                        <div className="ed-si-val">2 - 4 Members</div>
+                      </div>
                     </div>
-                  </div>
-                  <div className="ed-side-item">
-                    <span className="ed-si-icon">{Icons.calendarDead}</span>
-                    <div className="ed-si-text">
-                      <div className="ed-si-label">Registration Ends</div>
-                      <div className="ed-si-val">20 May 2025, 11:59 PM</div>
+                    <div className="ed-side-item">
+                      <span className="ed-si-icon">{Icons.calendarDead}</span>
+                      <div className="ed-si-text">
+                        <div className="ed-si-label">Registration Ends</div>
+                        <div className="ed-si-val">20 May 2025, 11:59 PM</div>
+                      </div>
                     </div>
-                  </div>
-                  <div className="ed-side-item">
-                    <span className="ed-si-icon">{Icons.org}</span>
-                    <div className="ed-si-text">
-                      <div className="ed-si-label">Organized By</div>
-                      <div className="ed-si-val">Coding Club, ABC College</div>
+                    <div className="ed-side-item">
+                      <span className="ed-si-icon">{Icons.org}</span>
+                      <div className="ed-si-text">
+                        <div className="ed-si-label">Organized By</div>
+                        <div className="ed-si-val">Coding Club, ABC College</div>
+                      </div>
                     </div>
                   </div>
                 </div>
-              </div>
+              )}
+
+              {/* Other standard tabs fallback */}
+              {['Schedule', 'Prizes', 'Rules', 'FAQ'].includes(activeTab) && (
+                <div className="ed-tab-fallback-pane">
+                  <h3 className="ed-section-title">{activeTab} Info</h3>
+                  <p className="ed-p">Detailed information for the {activeTab.toLowerCase()} of {event.title} will be updated by coordinators soon.</p>
+                </div>
+              )}
+
+              {/* Gallery Tab */}
+              {activeTab === 'Gallery' && (
+                <div className="ed-gallery-pane">
+                  <h3 className="ed-section-title">Event Memories & Photos</h3>
+                  {photosLoading ? (
+                    <div className="ed-gallery-loading">Loading event photo gallery...</div>
+                  ) : photos.length === 0 ? (
+                    <div className="ed-gallery-empty">
+                      <div className="ed-gallery-empty-icon">📸</div>
+                      <h4>No Gallery Photos Yet</h4>
+                      <p>Coordinators have not uploaded any photos for this event yet. Check back after the event check-in!</p>
+                    </div>
+                  ) : (
+                    <div className="ed-gallery-grid">
+                      {photos.map((photo, index) => (
+                        <div key={photo.id} className="ed-gallery-card" onClick={() => setActiveLightboxIndex(index)}>
+                          <img src={photo.image} alt={photo.caption || 'Event Gallery'} className="ed-gallery-img" />
+                          <div className="ed-gallery-overlay">
+                            <span className="ed-gallery-caption">{photo.caption || 'Event Photo'}</span>
+                            <a 
+                              href={photo.image} 
+                              download={`${event.id}-photo-${index}.jpg`} 
+                              className="ed-gallery-download-btn"
+                              onClick={e => e.stopPropagation()} // prevent opening lightbox
+                            >
+                              📥 Download
+                            </a>
+                          </div>
+                        </div>
+                      ))}
+                    </div>
+                  )}
+                </div>
+              )}
             </div>
 
             <div className="ed-org-card-container">
@@ -257,6 +324,41 @@ export default function EventDetailsPage({ onBack, evt, user }) {
         </div>
       </div>
     </div>
+    {activeLightboxIndex !== null && photos[activeLightboxIndex] && (
+      <div className="ed-lightbox-overlay" onClick={() => setActiveLightboxIndex(null)}>
+        <button className="ed-lightbox-close" onClick={() => setActiveLightboxIndex(null)}>×</button>
+        <div className="ed-lightbox-content" onClick={e => e.stopPropagation()}>
+          <img src={photos[activeLightboxIndex].image} alt={photos[activeLightboxIndex].caption || 'Event Gallery'} />
+          {photos[activeLightboxIndex].caption && (
+            <div className="ed-lightbox-caption">{photos[activeLightboxIndex].caption}</div>
+          )}
+          <div className="ed-lightbox-actions">
+            <a 
+              href={photos[activeLightboxIndex].image} 
+              download={`${event.id}-gallery-${photos[activeLightboxIndex].id}.jpg`}
+              className="ed-lightbox-download"
+            >
+              📥 Download Image
+            </a>
+            <div className="ed-lightbox-nav">
+              <button 
+                disabled={activeLightboxIndex === 0} 
+                onClick={() => setActiveLightboxIndex(activeLightboxIndex - 1)}
+              >
+                ◀ Prev
+              </button>
+              <span>{activeLightboxIndex + 1} / {photos.length}</span>
+              <button 
+                disabled={activeLightboxIndex === photos.length - 1} 
+                onClick={() => setActiveLightboxIndex(activeLightboxIndex + 1)}
+              >
+                Next ▶
+              </button>
+            </div>
+          </div>
+        </div>
+      </div>
+    )}
     </>
   );
 }

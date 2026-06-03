@@ -15,30 +15,31 @@
 .notifications-title {
   font-size: 28px;
   font-weight: 800;
-  color: #0f172a;
+  color: #ffffff;
   letter-spacing: -0.5px;
 }
 
 .notifications-subtitle {
   font-size: 14px;
-  color: #64748b;
+  color: var(--text-secondary);
   margin-top: 4px;
 }
 
 .btn-mark-all {
-  background: transparent;
-  color: #4f46e5;
-  border: 1px solid rgba(99,102,241,0.25);
+  background: rgba(255, 255, 255, 0.04);
+  color: var(--primary);
+  border: 1px solid var(--primary);
   border-radius: 12px;
   padding: 8px 16px;
   font-size: 13px;
   font-weight: 700;
-  transition: all 0.15s ease-in-out;
+  transition: all 0.25s cubic-bezier(0.23, 1, 0.32, 1);
 }
 
 .btn-mark-all:hover {
-  background: rgba(99,102,241,0.06);
-  border-color: #4f46e5;
+  background: var(--primary);
+  color: #070a13;
+  box-shadow: 0 0 10px rgba(105, 156, 255, 0.4);
   transform: translateY(-1px);
 }
 
@@ -52,37 +53,39 @@
 
 .notif-card {
   display: flex;
-  background: #ffffff;
-  border: 1px solid #e2e8f0;
-  border-radius: 16px;
+  background: var(--bg-white);
+  backdrop-filter: blur(24px);
+  -webkit-backdrop-filter: blur(24px);
+  border: 1px solid var(--border);
+  border-radius: var(--radius-md);
   padding: 20px;
   gap: 16px;
   position: relative;
-  transition: all 0.2s ease-in-out;
-  box-shadow: 0 1px 3px rgba(0,0,0,0.02);
+  transition: all 0.25s cubic-bezier(0.23, 1, 0.32, 1);
+  box-shadow: var(--shadow-sm);
 }
 
 .notif-card:hover {
   transform: translateY(-2px);
-  box-shadow: 0 6px 20px rgba(0,0,0,0.04);
-  border-color: #cbd5e1;
+  box-shadow: 0 10px 30px rgba(0, 0, 0, 0.3);
+  border-color: rgba(255, 255, 255, 0.18);
 }
 
 /* UNREAD STATES */
 .notif-card.unread {
-  background: rgba(99,102,241,0.01);
-  border-color: rgba(99,102,241,0.15);
+  background: rgba(105, 156, 255, 0.04);
+  border-color: rgba(105, 156, 255, 0.15);
 }
 
 .notif-card.unread:hover {
-  background: rgba(99,102,241,0.02);
-  border-color: rgba(99,102,241,0.3);
+  background: rgba(105, 156, 255, 0.08);
+  border-color: rgba(105, 156, 255, 0.3);
 }
 
 /* SEVERITY BORDERS */
-.notif-card.severity-info { border-left: 4px solid #3b82f6; }
-.notif-card.severity-warning { border-left: 4px solid #f97316; }
-.notif-card.severity-critical { border-left: 4px solid #ef4444; }
+.notif-card.severity-info { border-left: 4px solid var(--success); }
+.notif-card.severity-warning { border-left: 4px solid var(--accent-orange); }
+.notif-card.severity-critical { border-left: 4px solid #ff6e84; }
 
 /* SIDE ICON */
 .notif-card-side {
@@ -94,17 +97,17 @@
   width: 40px;
   height: 40px;
   border-radius: 50%;
-  background: #f8fafc;
+  background: rgba(255, 255, 255, 0.05);
   display: flex;
   align-items: center;
   justify-content: center;
   font-size: 18px;
-  box-shadow: inset 0 1px 2px rgba(0,0,0,0.05);
+  border: 1px solid rgba(255, 255, 255, 0.08);
 }
 
-.notif-card.severity-info .notif-icon-circle { background: #eff6ff; }
-.notif-card.severity-warning .notif-icon-circle { background: #fff7ed; }
-.notif-card.severity-critical .notif-icon-circle { background: #fef2f2; }
+.notif-card.severity-info .notif-icon-circle { background: rgba(105, 156, 255, 0.10); border-color: rgba(105, 156, 255, 0.2); }
+.notif-card.severity-warning .notif-icon-circle { background: rgba(255, 149, 160, 0.10); border-color: rgba(255, 149, 160, 0.2); }
+.notif-card.severity-critical .notif-icon-circle { background: rgba(255, 110, 132, 0.10); border-color: rgba(255, 110, 132, 0.2); }
 
 /* MAIN CONTENT */
 .notif-card-main {
@@ -128,18 +131,19 @@
 
 .notif-title-row h3 {
   font-size: 16px;
-  font-weight: 700;
-  color: #1e293b;
+  font-weight: 800;
+  color: #ffffff;
 }
 
 .unread-pulse-dot {
   width: 8px;
   height: 8px;
   border-radius: 50%;
-  background: #4f46e5;
+  background: var(--primary);
   display: inline-block;
   animation: blink 1.2s infinite ease-in-out;
   flex-shrink: 0;
+  box-shadow: 0 0 8px var(--primary);
 }
 
 @keyframes blink {
@@ -150,14 +154,14 @@
 
 .notif-time {
   font-size: 11px;
-  color: #94a3b8;
+  color: var(--text-muted);
   font-weight: 600;
 }
 
 .notif-body {
   font-size: 13px;
   line-height: 1.5;
-  color: #475569;
+  color: var(--text-secondary);
   word-break: break-word;
 }
 
@@ -179,37 +183,40 @@
 
 .target-badge, .sender-badge {
   font-size: 11px;
-  font-weight: 600;
+  font-weight: 700;
   padding: 4px 10px;
   border-radius: 20px;
 }
 
 .target-badge.badge-all {
-  background: #f1f5f9;
-  color: #475569;
+  background: rgba(255, 255, 255, 0.05);
+  border: 1px solid rgba(255, 255, 255, 0.08);
+  color: var(--text-secondary);
 }
 
 .target-badge.badge-event {
-  background: #eef2ff;
-  color: #4f46e5;
+  background: var(--primary-bg);
+  border: 1px solid rgba(105, 156, 255, 0.2);
+  color: var(--primary);
 }
 
 .sender-badge {
-  background: #f1f5f9;
-  color: #475569;
+  background: rgba(255, 255, 255, 0.05);
+  border: 1px solid rgba(255, 255, 255, 0.08);
+  color: var(--text-secondary);
 }
 
 .mark-read-hint {
   font-size: 11px;
   font-weight: 700;
-  color: #4f46e5;
+  color: var(--primary);
   opacity: 0;
   transform: translateX(5px);
   transition: all 0.2s ease;
 }
 
 .notif-card:hover .mark-read-hint {
-  opacity: 0.8;
+  opacity: 0.85;
   transform: translateX(0);
 }
 
@@ -221,14 +228,14 @@
   justify-content: center;
   padding: 80px 20px;
   text-align: center;
-  background: #ffffff;
-  border: 1px dashed #cbd5e1;
-  border-radius: 24px;
+  background: rgba(255, 255, 255, 0.02);
+  border: 1px dashed rgba(255, 255, 255, 0.1);
+  border-radius: var(--radius-md);
   max-width: 800px;
 }
 
 .empty-graphic {
-  background: #f8fafc;
+  background: rgba(255, 255, 255, 0.04);
   width: 96px;
   height: 96px;
   border-radius: 50%;
@@ -236,19 +243,20 @@
   align-items: center;
   justify-content: center;
   margin-bottom: 20px;
-  box-shadow: 0 4px 10px rgba(0,0,0,0.02);
+  border: 1px solid rgba(255, 255, 255, 0.06);
+  color: var(--text-muted);
 }
 
 .notifications-empty h3 {
   font-size: 18px;
-  font-weight: 700;
-  color: #1e293b;
+  font-weight: 800;
+  color: #ffffff;
   margin-bottom: 6px;
 }
 
 .notifications-empty p {
-  font-size: 13px;
-  color: #64748b;
+  font-size: 13.5px;
+  color: var(--text-secondary);
   max-width: 320px;
 }
 
