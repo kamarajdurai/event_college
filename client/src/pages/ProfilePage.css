@@ -16,7 +16,7 @@
 
 /* --- Profile Header Card --- */
 .profile-header-card {
-  background: rgba(255, 255, 255, 0.03);
+  background: var(--bg-white);
   backdrop-filter: blur(24px);
   -webkit-backdrop-filter: blur(24px);
   border-radius: var(--radius-md);
@@ -27,7 +27,7 @@
   align-items: center;
   position: relative;
   overflow: hidden;
-  box-shadow: var(--shadow-md), inset 0 1px 0 0 rgba(255, 255, 255, 0.1);
+  box-shadow: var(--shadow-md), inset 0 1px 0 0 rgba(255, 255, 255, 0.5);
 }
 
 .header-user-info {
@@ -46,16 +46,16 @@
   height: 100px;
   border-radius: 50%;
   object-fit: cover;
-  border: 4px solid rgba(255, 255, 255, 0.15);
-  box-shadow: 0 4px 12px rgba(0,0,0,0.3);
+  border: 4px solid rgba(255, 255, 255, 0.8);
+  box-shadow: var(--shadow-sm);
 }
 
 .edit-avatar-btn {
   position: absolute;
   bottom: 0;
   right: 0;
-  background: rgba(10, 14, 24, 0.8);
-  border: 1px solid rgba(255, 255, 255, 0.1);
+  background: rgba(255, 255, 255, 0.8);
+  border: 1px solid rgba(15, 23, 42, 0.1);
   border-radius: 50%;
   width: 32px;
   height: 32px;
@@ -64,13 +64,13 @@
   justify-content: center;
   cursor: pointer;
   color: var(--primary);
-  box-shadow: 0 2px 4px rgba(0,0,0,0.2);
+  box-shadow: var(--shadow-sm);
   transition: all 0.2s;
   backdrop-filter: blur(4px);
 }
 
 .edit-avatar-btn:hover {
-  background: rgba(255, 255, 255, 0.1);
+  background: rgba(255, 255, 255, 0.95);
   color: var(--primary-light);
   transform: scale(1.05);
 }
@@ -79,20 +79,20 @@
   margin: 0 0 8px 0;
   font-size: 28px;
   font-weight: 800;
-  color: #ffffff;
+  color: var(--text-primary);
   letter-spacing: -0.5px;
 }
 
 .role-badge {
   display: inline-block;
   background: var(--primary);
-  color: #070a13;
+  color: #ffffff;
   padding: 4px 12px;
   border-radius: 20px;
   font-size: 12px;
   font-weight: 700;
   margin-bottom: 16px;
-  box-shadow: 0 0 10px rgba(105, 156, 255, 0.3);
+  box-shadow: 0 0 10px rgba(79, 70, 229, 0.3);
 }
 
 .header-meta {
@@ -122,7 +122,7 @@
 .meta-divider {
   width: 1px;
   height: 14px;
-  background-color: rgba(255, 255, 255, 0.15);
+  background-color: rgba(15, 23, 42, 0.15);
 }
 
 /* Header ID Card Graphic Placeholder */
@@ -141,7 +141,7 @@
 /* Background floating shapes */
 .header-shape {
   position: absolute;
-  color: rgba(105, 156, 255, 0.05);
+  color: rgba(79, 70, 229, 0.05);
   z-index: 1;
 }
 
@@ -149,7 +149,7 @@
 .profile-tabs {
   display: flex;
   gap: 32px;
-  border-bottom: 2px solid rgba(255, 255, 255, 0.06);
+  border-bottom: 2px solid var(--border-light);
   padding: 0 8px;
   overflow-x: auto;
 }
@@ -196,7 +196,7 @@
 }
 
 .profile-card {
-  background: rgba(255, 255, 255, 0.03);
+  background: var(--bg-white);
   backdrop-filter: blur(24px);
   -webkit-backdrop-filter: blur(24px);
   border: 1px solid var(--border);
@@ -208,7 +208,7 @@
 .card-title {
   font-size: 18px;
   font-weight: 800;
-  color: #ffffff;
+  color: var(--text-primary);
   margin: 0 0 20px 0;
   display: flex;
   justify-content: space-between;
@@ -277,9 +277,9 @@
 }
 
 .interest-tag {
-  background: rgba(255, 255, 255, 0.05);
+  background: rgba(255, 255, 255, 0.6);
   color: var(--primary);
-  border: 1px solid rgba(255, 255, 255, 0.08);
+  border: 1px solid rgba(15, 23, 42, 0.08);
   padding: 6px 14px;
   border-radius: 8px;
   font-size: 13px;
@@ -288,7 +288,7 @@
 
 .edit-profile-btn {
   background: var(--primary);
-  color: #070a13;
+  color: #ffffff;
   border: none;
   padding: 10px 24px;
   border-radius: var(--radius-sm);
@@ -296,31 +296,31 @@
   font-weight: 700;
   cursor: pointer;
   transition: all 0.25s ease;
-  box-shadow: 0 4px 12px rgba(105, 156, 255, 0.2);
+  box-shadow: 0 4px 12px rgba(79, 70, 229, 0.2);
 }
 
 .edit-profile-btn:hover {
   background: var(--primary-light);
-  box-shadow: 0 4px 18px rgba(105, 156, 255, 0.4);
+  box-shadow: 0 4px 18px rgba(79, 70, 229, 0.4);
 }
 
 .profile-edit-input {
   flex: 1;
   padding: 8px 12px;
-  border: 1px solid rgba(255, 255, 255, 0.08);
+  border: 1px solid rgba(15, 23, 42, 0.08);
   border-radius: 8px;
   font-size: 14px;
-  color: #ffffff;
+  color: var(--text-primary);
   font-family: inherit;
   transition: all 0.25s ease;
-  background-color: rgba(255, 255, 255, 0.04);
+  background-color: rgba(255, 255, 255, 0.6);
 }
 
 .profile-edit-input:focus {
   outline: none;
-  border-color: rgba(255, 255, 255, 0.2);
-  background-color: rgba(255, 255, 255, 0.08);
-  box-shadow: 0 0 10px rgba(105, 156, 255, 0.15);
+  border-color: var(--primary-light);
+  background-color: rgba(255, 255, 255, 0.85);
+  box-shadow: 0 0 10px rgba(79, 70, 229, 0.15);
 }
 
 .edit-actions {
@@ -330,7 +330,7 @@
 
 .save-profile-btn {
   background: var(--primary);
-  color: #070a13;
+  color: #ffffff;
   border: none;
   padding: 10px 24px;
   border-radius: var(--radius-sm);
@@ -338,12 +338,12 @@
   font-weight: 700;
   cursor: pointer;
   transition: all 0.25s ease;
-  box-shadow: 0 4px 12px rgba(105, 156, 255, 0.2);
+  box-shadow: 0 4px 12px rgba(79, 70, 229, 0.2);
 }
 
 .save-profile-btn:hover:not(:disabled) {
   background: var(--primary-light);
-  box-shadow: 0 4px 18px rgba(105, 156, 255, 0.4);
+  box-shadow: 0 4px 18px rgba(79, 70, 229, 0.4);
 }
 
 .save-profile-btn:disabled {
@@ -352,9 +352,9 @@
 }
 
 .cancel-profile-btn {
-  background: rgba(255, 255, 255, 0.04);
+  background: rgba(255, 255, 255, 0.6);
   color: var(--text-primary);
-  border: 1px solid rgba(255, 255, 255, 0.1);
+  border: 1px solid rgba(15, 23, 42, 0.15);
   padding: 10px 24px;
   border-radius: var(--radius-sm);
   font-size: 14px;
@@ -364,7 +364,7 @@
 }
 
 .cancel-profile-btn:hover:not(:disabled) {
-  background: rgba(255, 255, 255, 0.08);
+  background: rgba(255, 255, 255, 0.9);
 }
 
 .cancel-profile-btn:disabled {
@@ -385,15 +385,15 @@
 }
 
 .registrations-table th {
-  color: #ffffff;
+  color: var(--text-primary);
   font-weight: 700;
   padding: 12px 16px;
-  border-bottom: 1px solid rgba(255, 255, 255, 0.08);
+  border-bottom: 1px solid var(--border-light);
 }
 
 .registrations-table td {
   padding: 16px;
-  border-bottom: 1px solid rgba(255, 255, 255, 0.04);
+  border-bottom: 1px solid var(--border-light);
   color: var(--text-secondary);
   font-weight: 500;
 }
@@ -403,7 +403,7 @@
 }
 
 .registrations-table .event-name {
-  color: #ffffff;
+  color: var(--text-primary);
   font-weight: 700;
 }
 
@@ -415,9 +415,9 @@
   display: inline-block;
 }
 
-.cat-tech { background: rgba(105, 156, 255, 0.12); color: var(--success); border: 1px solid rgba(105, 156, 255, 0.2); }
-.cat-cultural { background: rgba(255, 149, 160, 0.12); color: var(--accent-orange); border: 1px solid rgba(255, 149, 160, 0.2); }
-.cat-nontech { background: rgba(105, 156, 255, 0.12); color: var(--primary); border: 1px solid rgba(105, 156, 255, 0.2); }
+.cat-tech { background: rgba(79, 70, 229, 0.08); color: var(--primary); border: 1px solid rgba(79, 70, 229, 0.15); }
+.cat-cultural { background: rgba(249, 115, 22, 0.08); color: var(--accent-orange); border: 1px solid rgba(249, 115, 22, 0.15); }
+.cat-nontech { background: rgba(79, 70, 229, 0.08); color: var(--primary-light); border: 1px solid rgba(79, 70, 229, 0.15); }
 
 .status-badge {
   padding: 4px 10px;
@@ -427,12 +427,12 @@
   display: inline-block;
 }
 
-.status-reg { background: rgba(105, 156, 255, 0.1); color: var(--success); border: 1px solid rgba(105, 156, 255, 0.2); }
-.status-att { background: rgba(105, 156, 255, 0.1); color: var(--primary); border: 1px solid rgba(105, 156, 255, 0.2); }
+.status-reg { background: rgba(79, 70, 229, 0.08); color: var(--primary); border: 1px solid rgba(79, 70, 229, 0.15); }
+.status-att { background: rgba(16, 185, 129, 0.08); color: var(--success); border: 1px solid rgba(16, 185, 129, 0.15); }
 
 .amount-text {
   font-weight: 700;
-  color: #ffffff;
+  color: var(--text-primary);
 }
 
 /* --- Right Column: History Timeline --- */
@@ -450,7 +450,7 @@
   top: 10px;
   bottom: 10px;
   width: 1px;
-  background: rgba(255, 255, 255, 0.08);
+  background: var(--border-light);
   z-index: 0;
 }
 
@@ -470,14 +470,14 @@
   display: flex;
   align-items: center;
   justify-content: center;
-  color: #070a13;
+  color: #ffffff;
   font-size: 18px;
   flex-shrink: 0;
 }
 
 .icon-purple { background: var(--primary); }
 .icon-pink { background: var(--accent-orange); }
-.icon-orange { background: #ff909c; }
+.icon-orange { background: #ff7e8d; }
 .icon-blue { background: var(--success); }
 
 .timeline-content {
@@ -486,7 +486,7 @@
 
 .timeline-title {
   font-weight: 700;
-  color: #ffffff;
+  color: var(--text-primary);
   font-size: 14px;
   margin-bottom: 2px;
 }
@@ -513,7 +513,7 @@
 
 .timeline-amount {
   font-weight: 700;
-  color: #ffffff;
+  color: var(--text-primary);
   font-size: 14px;
 }
 
@@ -522,19 +522,19 @@
   justify-content: space-between;
   align-items: center;
   padding-top: 16px;
-  border-top: 1px dashed rgba(255, 255, 255, 0.1);
+  border-top: 1px dashed var(--border-light);
 }
 
 .total-label {
   font-weight: 700;
-  color: #ffffff;
+  color: var(--text-primary);
 }
 
 .total-value {
   font-weight: 800;
   color: var(--primary);
   font-size: 18px;
-  text-shadow: 0 0 10px rgba(105, 156, 255, 0.3);
+  text-shadow: 0 0 10px rgba(79, 70, 229, 0.3);
 }
 
 /* --- Performance Stats --- */
@@ -546,13 +546,13 @@
 }
 
 .stat-card {
-  border: 1px solid rgba(255, 255, 255, 0.08);
+  border: 1px solid var(--border-light);
   border-radius: 12px;
   padding: 16px;
   display: flex;
   align-items: center;
   gap: 12px;
-  background: rgba(255, 255, 255, 0.02);
+  background: rgba(255, 255, 255, 0.3);
 }
 
 .stat-icon {
@@ -565,10 +565,10 @@
   font-size: 18px;
 }
 
-.stat-icon.green { background: rgba(105, 156, 255, 0.12); color: var(--success); }
-.stat-icon.blue { background: rgba(105, 156, 255, 0.12); color: var(--primary); }
-.stat-icon.purple { background: rgba(255, 149, 160, 0.12); color: var(--accent-orange); }
-.stat-icon.orange { background: rgba(255, 255, 255, 0.05); color: #ffffff; }
+.stat-icon.green { background: rgba(16, 185, 129, 0.08); color: var(--success); }
+.stat-icon.blue { background: rgba(79, 70, 229, 0.08); color: var(--primary); }
+.stat-icon.purple { background: rgba(249, 115, 22, 0.08); color: var(--accent-orange); }
+.stat-icon.orange { background: rgba(255, 255, 255, 0.6); color: var(--text-primary); }
 
 .stat-info {
   display: flex;
@@ -578,7 +578,7 @@
 .stat-value {
   font-size: 18px;
   font-weight: 800;
-  color: #ffffff;
+  color: var(--text-primary);
 }
 
 .stat-label {
@@ -601,7 +601,7 @@
 .progress-bar-bg {
   width: 100%;
   height: 8px;
-  background: rgba(255, 255, 255, 0.08);
+  background: rgba(15, 23, 42, 0.08);
   border-radius: 4px;
   overflow: hidden;
   position: relative;

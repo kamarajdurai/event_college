@@ -278,7 +278,7 @@ const TopbarSearchIcon = () => (
   </svg>
 )
 
-function Topbar({ onMenuClick, showSearch, user, onProfileClick, unreadCount, onNotifClick }) {
+function Topbar({ onMenuClick, showSearch, user, onProfileClick, unreadCount, onNotifClick, isDark, onThemeToggle }) {
   const defaultName = user?.email?.split('@')[0] || 'User'
   const displayName = user?.displayName || defaultName
   const firstName = displayName.split(' ')[0]
@@ -299,6 +299,9 @@ function Topbar({ onMenuClick, showSearch, user, onProfileClick, unreadCount, on
       )}
 
       <div className="topbar-right">
+        <button className="theme-toggle-btn" aria-label="Toggle theme" onClick={onThemeToggle} style={{ fontSize: '18px' }}>
+          {isDark ? '☀️' : '🌙'}
+        </button>
         <button className="notif-btn" aria-label="Notifications" onClick={onNotifClick}>
           🔔
           {unreadCount > 0 && <span className="notif-count">{unreadCount}</span>}
@@ -537,6 +540,28 @@ export default function App() {
   const [previousNav, setPreviousNav] = useState('tech')
   const [selectedEvent, setSelectedEvent] = useState(null)
 
+  const [isDark, setIsDark] = useState(() => {
+    try {
+      return localStorage.getItem('theme') === 'dark'
+    } catch (e) {
+      return false
+    }
+  })
+
+  useEffect(() => {
+    try {
+      if (isDark) {
+        document.body.classList.add('dark-theme')
+        localStorage.setItem('theme', 'dark')
+      } else {
+        document.body.classList.remove('dark-theme')
+        localStorage.setItem('theme', 'light')
+      }
+    } catch (e) {
+      console.error(e)
+    }
+  }, [isDark])
+
   // -- Announcements / Broadcaster States --
   const [announcements, setAnnouncements] = useState([])
   const [readNotifications, setReadNotifications] = useState(() => {
@@ -667,6 +692,8 @@ export default function App() {
           onProfileClick={() => setActiveNav('profile')}
           unreadCount={unreadCount}
           onNotifClick={() => setActiveNav('notifications')}
+          isDark={isDark}
+          onThemeToggle={() => setIsDark(!isDark)}
         />
 
         {activeNav === 'tech' ? (

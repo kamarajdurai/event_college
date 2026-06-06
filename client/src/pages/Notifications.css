@@ -15,7 +15,7 @@
 .notifications-title {
   font-size: 28px;
   font-weight: 800;
-  color: #ffffff;
+  color: var(--text-primary);
   letter-spacing: -0.5px;
 }
 
@@ -26,7 +26,7 @@
 }
 
 .btn-mark-all {
-  background: rgba(255, 255, 255, 0.04);
+  background: rgba(255, 255, 255, 0.6);
   color: var(--primary);
   border: 1px solid var(--primary);
   border-radius: 12px;
@@ -38,8 +38,8 @@
 
 .btn-mark-all:hover {
   background: var(--primary);
-  color: #070a13;
-  box-shadow: 0 0 10px rgba(105, 156, 255, 0.4);
+  color: #ffffff;
+  box-shadow: 0 0 10px rgba(79, 70, 229, 0.4);
   transform: translateY(-1px);
 }
 
@@ -67,25 +67,25 @@
 
 .notif-card:hover {
   transform: translateY(-2px);
-  box-shadow: 0 10px 30px rgba(0, 0, 0, 0.3);
-  border-color: rgba(255, 255, 255, 0.18);
+  box-shadow: var(--shadow-md);
+  border-color: rgba(255, 255, 255, 0.8);
 }
 
 /* UNREAD STATES */
 .notif-card.unread {
-  background: rgba(105, 156, 255, 0.04);
-  border-color: rgba(105, 156, 255, 0.15);
+  background: rgba(79, 70, 229, 0.04);
+  border-color: rgba(79, 70, 229, 0.15);
 }
 
 .notif-card.unread:hover {
-  background: rgba(105, 156, 255, 0.08);
-  border-color: rgba(105, 156, 255, 0.3);
+  background: rgba(79, 70, 229, 0.08);
+  border-color: rgba(79, 70, 229, 0.3);
 }
 
 /* SEVERITY BORDERS */
 .notif-card.severity-info { border-left: 4px solid var(--success); }
 .notif-card.severity-warning { border-left: 4px solid var(--accent-orange); }
-.notif-card.severity-critical { border-left: 4px solid #ff6e84; }
+.notif-card.severity-critical { border-left: 4px solid #ff4d6a; }
 
 /* SIDE ICON */
 .notif-card-side {
@@ -97,17 +97,17 @@
   width: 40px;
   height: 40px;
   border-radius: 50%;
-  background: rgba(255, 255, 255, 0.05);
+  background: rgba(255, 255, 255, 0.6);
   display: flex;
   align-items: center;
   justify-content: center;
   font-size: 18px;
-  border: 1px solid rgba(255, 255, 255, 0.08);
+  border: 1px solid rgba(15, 23, 42, 0.08);
 }
 
-.notif-card.severity-info .notif-icon-circle { background: rgba(105, 156, 255, 0.10); border-color: rgba(105, 156, 255, 0.2); }
-.notif-card.severity-warning .notif-icon-circle { background: rgba(255, 149, 160, 0.10); border-color: rgba(255, 149, 160, 0.2); }
-.notif-card.severity-critical .notif-icon-circle { background: rgba(255, 110, 132, 0.10); border-color: rgba(255, 110, 132, 0.2); }
+.notif-card.severity-info .notif-icon-circle { background: rgba(79, 70, 229, 0.08); border-color: rgba(79, 70, 229, 0.15); }
+.notif-card.severity-warning .notif-icon-circle { background: rgba(249, 115, 22, 0.08); border-color: rgba(249, 115, 22, 0.15); }
+.notif-card.severity-critical .notif-icon-circle { background: rgba(255, 77, 106, 0.08); border-color: rgba(255, 77, 106, 0.15); }
 
 /* MAIN CONTENT */
 .notif-card-main {
@@ -132,7 +132,7 @@
 .notif-title-row h3 {
   font-size: 16px;
   font-weight: 800;
-  color: #ffffff;
+  color: var(--text-primary);
 }
 
 .unread-pulse-dot {
@@ -189,20 +189,20 @@
 }
 
 .target-badge.badge-all {
-  background: rgba(255, 255, 255, 0.05);
-  border: 1px solid rgba(255, 255, 255, 0.08);
+  background: rgba(255, 255, 255, 0.6);
+  border: 1px solid rgba(15, 23, 42, 0.08);
   color: var(--text-secondary);
 }
 
 .target-badge.badge-event {
   background: var(--primary-bg);
-  border: 1px solid rgba(105, 156, 255, 0.2);
+  border: 1px solid rgba(79, 70, 229, 0.2);
   color: var(--primary);
 }
 
 .sender-badge {
-  background: rgba(255, 255, 255, 0.05);
-  border: 1px solid rgba(255, 255, 255, 0.08);
+  background: rgba(255, 255, 255, 0.6);
+  border: 1px solid rgba(15, 23, 42, 0.08);
   color: var(--text-secondary);
 }
 
@@ -228,14 +228,14 @@
   justify-content: center;
   padding: 80px 20px;
   text-align: center;
-  background: rgba(255, 255, 255, 0.02);
-  border: 1px dashed rgba(255, 255, 255, 0.1);
+  background: rgba(255, 255, 255, 0.3);
+  border: 1px dashed rgba(15, 23, 42, 0.1);
   border-radius: var(--radius-md);
   max-width: 800px;
 }
 
 .empty-graphic {
-  background: rgba(255, 255, 255, 0.04);
+  background: rgba(255, 255, 255, 0.6);
   width: 96px;
   height: 96px;
   border-radius: 50%;
@@ -243,14 +243,14 @@
   align-items: center;
   justify-content: center;
   margin-bottom: 20px;
-  border: 1px solid rgba(255, 255, 255, 0.06);
+  border: 1px solid rgba(15, 23, 42, 0.08);
   color: var(--text-muted);
 }
 
 .notifications-empty h3 {
   font-size: 18px;
   font-weight: 800;
-  color: #ffffff;
+  color: var(--text-primary);
   margin-bottom: 6px;
 }
 

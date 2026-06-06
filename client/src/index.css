@@ -7,25 +7,25 @@
 }
 
 :root {
-  --primary: #699cff;
-  --primary-light: #a5c5ff;
-  --primary-dark: #3a76e8;
-  --primary-bg: rgba(105, 156, 255, 0.12);
-  --accent-orange: #ff95a0;
-  --accent-orange-bg: rgba(255, 149, 160, 0.12);
-  --success: #34d399;
-  --success-bg: rgba(52, 211, 153, 0.12);
-  --text-primary: #e5e7f6;
-  --text-secondary: #a7aab9;
-  --text-muted: #727582;
-  --bg-page: #000000;
-  --bg-white: rgba(255, 255, 255, 0.03);
-  --bg-sidebar: rgba(0, 0, 0, 0.5);
-  --border: rgba(255, 255, 255, 0.08);
-  --border-light: rgba(255, 255, 255, 0.04);
-  --shadow-sm: 0 4px 12px rgba(0,0,0,0.3);
-  --shadow-md: 0 10px 30px rgba(0,0,0,0.4);
-  --shadow-lg: 0 20px 50px rgba(0,0,0,0.5);
+  --primary: #8b5cf6;
+  --primary-light: #a78bfa;
+  --primary-dark: #6d28d9;
+  --primary-bg: rgba(139, 92, 246, 0.08);
+  --accent-orange: #fb923c;
+  --accent-orange-bg: rgba(251, 146, 60, 0.08);
+  --success: #10b981;
+  --success-bg: rgba(16, 185, 129, 0.08);
+  --text-primary: #1e1b4b;
+  --text-secondary: #475569;
+  --text-muted: #807a9e;
+  --bg-page: #faf8ff;
+  --bg-white: rgba(255, 255, 255, 0.6);
+  --bg-sidebar: rgba(255, 255, 255, 0.7);
+  --border: rgba(219, 214, 254, 0.6);
+  --border-light: rgba(219, 214, 254, 0.4);
+  --shadow-sm: 0 4px 12px rgba(139, 92, 246, 0.03);
+  --shadow-md: 0 8px 30px rgba(139, 92, 246, 0.06);
+  --shadow-lg: 0 16px 40px rgba(139, 92, 246, 0.08);
   --radius-sm: 12px;
   --radius-md: 18px;
   --radius-lg: 24px;
@@ -38,8 +38,9 @@
 body {
   background-color: var(--bg-page);
   background-image: 
-    radial-gradient(circle at 10% 20%, rgba(105, 156, 255, 0.15) 0%, transparent 40%),
-    radial-gradient(circle at 90% 80%, rgba(59, 130, 246, 0.15) 0%, transparent 45%);
+    radial-gradient(circle at 10% 20%, rgba(139, 92, 246, 0.12) 0%, transparent 50%),
+    radial-gradient(circle at 90% 10%, rgba(251, 146, 60, 0.08) 0%, transparent 50%),
+    radial-gradient(circle at 50% 80%, rgba(168, 85, 247, 0.08) 0%, transparent 50%);
   background-size: cover;
   background-attachment: fixed;
   background-position: center;
@@ -55,7 +56,7 @@ body::before {
   content: '';
   position: fixed;
   inset: 0;
-  background: rgba(0, 0, 0, 0.35);
+  background: rgba(255, 255, 255, 0.40);
   z-index: -1;
   pointer-events: none;
 }
@@ -80,10 +81,88 @@ button {
   background: transparent;
 }
 ::-webkit-scrollbar-thumb {
-  background: rgba(255, 255, 255, 0.08);
+  background: rgba(15, 23, 42, 0.1);
   border-radius: 4px;
   border: 2px solid transparent;
 }
 ::-webkit-scrollbar-thumb:hover {
+  background: rgba(15, 23, 42, 0.2);
+}
+
+/* ========== DARK THEME OVERRIDES ========== */
+body.dark-theme {
+  --text-primary: #f8fafc;
+  --text-secondary: #cbd5e1;
+  --text-muted: #94a3b8;
+  --bg-page: #090d16;
+  --bg-white: rgba(15, 23, 42, 0.45);
+  --bg-sidebar: rgba(15, 23, 42, 0.55);
+  --border: rgba(255, 255, 255, 0.1);
+  --border-light: rgba(255, 255, 255, 0.05);
+  --shadow-sm: 0 4px 12px rgba(0, 0, 0, 0.3);
+  --shadow-md: 0 8px 30px rgba(0, 0, 0, 0.4);
+  --shadow-lg: 0 16px 40px rgba(0, 0, 0, 0.5);
+}
+
+body.dark-theme::before {
+  background: rgba(9, 13, 22, 0.70);
+}
+
+body.dark-theme ::-webkit-scrollbar-thumb {
   background: rgba(255, 255, 255, 0.15);
 }
+body.dark-theme ::-webkit-scrollbar-thumb:hover {
+  background: rgba(255, 255, 255, 0.25);
+}
+
+/* Custom Overrides for Glass & UI elements in Dark Mode */
+body.dark-theme .topbar {
+  background: rgba(15, 23, 42, 0.35);
+}
+body.dark-theme .topbar-search-wrap {
+  background: rgba(15, 23, 42, 0.5);
+  border-color: rgba(255, 255, 255, 0.1);
+}
+body.dark-theme .topbar-search-wrap:focus-within {
+  background: rgba(15, 23, 42, 0.85);
+}
+body.dark-theme .topbar-search {
+  color: #f8fafc;
+}
+body.dark-theme .profile-edit-input {
+  background-color: rgba(15, 23, 42, 0.6);
+  border-color: rgba(255, 255, 255, 0.15);
+}
+body.dark-theme .profile-edit-input:focus {
+  background-color: rgba(15, 23, 42, 0.85);
+}
+body.dark-theme .auth-input-wrap {
+  background: rgba(15, 23, 42, 0.6);
+  border-color: rgba(255, 255, 255, 0.1);
+}
+body.dark-theme .auth-input-wrap:focus-within {
+  background: rgba(15, 23, 42, 0.85);
+}
+body.dark-theme .hero-banner-new {
+  background: rgba(15, 23, 42, 0.55);
+  border-color: rgba(255, 255, 255, 0.15);
+}
+body.dark-theme .tm-container,
+body.dark-theme .rm-container {
+  background: rgba(15, 23, 42, 0.85);
+}
+body.dark-theme .tm-close-btn-round {
+  background: rgba(15, 23, 42, 0.6);
+  border-color: rgba(255, 255, 255, 0.1);
+}
+body.dark-theme .rm-close-btn {
+  color: var(--text-secondary);
+}
+body.dark-theme .category-card:hover {
+  background: rgba(15, 23, 42, 0.6);
+  border-color: rgba(255, 255, 255, 0.2);
+}
+body.dark-theme .category-icon-badge {
+  background: rgba(15, 23, 42, 0.75);
+}
+
