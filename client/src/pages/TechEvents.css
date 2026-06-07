@@ -410,13 +410,25 @@
   .te-filter-bar {
     flex-direction: column;
     align-items: flex-start;
+    gap: 12px;
   }
   .te-filter-right {
     width: 100%;
+    display: flex;
+    flex-direction: column;
+    gap: 10px;
+    align-items: stretch;
   }
   .te-search-wrap {
+    width: 100%;
     min-width: unset;
-    flex: 1;
+  }
+  .te-dropdown-wrap {
+    width: 100%;
+  }
+  .te-dropdown-btn {
+    width: 100%;
+    justify-content: space-between;
   }
   .te-grid {
     grid-template-columns: 1fr 1fr;

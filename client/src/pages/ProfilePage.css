@@ -165,6 +165,7 @@
   position: relative;
   transition: color 0.2s;
   white-space: nowrap;
+  flex-shrink: 0;
 }
 
 .tab-btn:hover {
@@ -650,5 +651,19 @@
   
   .header-id-card {
     display: none;
+  }
+}
+
+@media (max-width: 600px) {
+  .registrations-table th,
+  .registrations-table td {
+    padding: 10px 8px;
+    font-size: 12px;
+  }
+  .profile-tabs {
+    gap: 20px;
+  }
+  .tab-btn {
+    font-size: 13.5px;
   }
 }

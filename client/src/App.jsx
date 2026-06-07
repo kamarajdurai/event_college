@@ -332,6 +332,11 @@ function HeroBanner({ user }) {
   const displayName = user?.displayName || defaultName
   const firstName = displayName.split(' ')[0]
 
+  const today = new Date()
+  const months = ["JAN", "FEB", "MAR", "APR", "MAY", "JUN", "JUL", "AUG", "SEP", "OCT", "NOV", "DEC"]
+  const currentMonth = months[today.getMonth()]
+  const currentDay = today.getDate()
+
   return (
     <div className="hero-banner-new">
       {/* Soft Sparkles Background Decorations */}
@@ -352,8 +357,8 @@ function HeroBanner({ user }) {
       {/* iOS styled liquid-glass illustration */}
       <div className="hero-illustration-container">
         <div className="glass-calendar-widget">
-          <div className="calendar-hdr">OCT</div>
-          <div className="calendar-bdy">26</div>
+          <div className="calendar-hdr">{currentMonth}</div>
+          <div className="calendar-bdy">{currentDay}</div>
         </div>
         <div className="glass-ticket-widget">
           <div className="ticket-body">
