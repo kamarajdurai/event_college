@@ -7,25 +7,25 @@
 }
 
 :root {
-  --primary: #8b5cf6;
-  --primary-light: #a78bfa;
-  --primary-dark: #6d28d9;
-  --primary-bg: rgba(139, 92, 246, 0.08);
-  --accent-orange: #fb923c;
-  --accent-orange-bg: rgba(251, 146, 60, 0.08);
-  --success: #10b981;
-  --success-bg: rgba(16, 185, 129, 0.08);
-  --text-primary: #1e1b4b;
-  --text-secondary: #475569;
-  --text-muted: #807a9e;
-  --bg-page: #faf8ff;
-  --bg-white: rgba(255, 255, 255, 0.6);
-  --bg-sidebar: rgba(255, 255, 255, 0.7);
-  --border: rgba(219, 214, 254, 0.6);
-  --border-light: rgba(219, 214, 254, 0.4);
-  --shadow-sm: 0 4px 12px rgba(139, 92, 246, 0.03);
-  --shadow-md: 0 8px 30px rgba(139, 92, 246, 0.06);
-  --shadow-lg: 0 16px 40px rgba(139, 92, 246, 0.08);
+  --primary: #8E78B2;
+  --primary-light: #C9B6FF;
+  --primary-dark: #7452A9;
+  --primary-bg: rgba(201, 182, 255, 0.1);
+  --accent-orange: #EC8C73;
+  --accent-orange-bg: rgba(236, 140, 115, 0.08);
+  --success: #EC8C73;
+  --success-bg: rgba(236, 140, 115, 0.08);
+  --text-primary: #3C334A;
+  --text-secondary: #4E445C;
+  --text-muted: #8F849E;
+  --bg-page: #FAF6F2;
+  --bg-white: rgba(255, 255, 255, 0.35);
+  --bg-sidebar: rgba(255, 255, 255, 0.45);
+  --border: rgba(255, 255, 255, 0.55);
+  --border-light: rgba(255, 255, 255, 0.35);
+  --shadow-sm: 0 4px 12px rgba(116, 82, 169, 0.03);
+  --shadow-md: 0 8px 30px rgba(116, 82, 169, 0.06);
+  --shadow-lg: 0 16px 40px rgba(116, 82, 169, 0.08);
   --radius-sm: 12px;
   --radius-md: 18px;
   --radius-lg: 24px;
@@ -38,9 +38,10 @@
 body {
   background-color: var(--bg-page);
   background-image: 
-    radial-gradient(circle at 10% 20%, rgba(139, 92, 246, 0.12) 0%, transparent 50%),
-    radial-gradient(circle at 90% 10%, rgba(251, 146, 60, 0.08) 0%, transparent 50%),
-    radial-gradient(circle at 50% 80%, rgba(168, 85, 247, 0.08) 0%, transparent 50%);
+    radial-gradient(circle at 0% 0%, rgba(201, 182, 255, 0.35) 0%, transparent 60%),
+    radial-gradient(circle at 100% 100%, rgba(255, 210, 190, 0.35) 0%, transparent 60%),
+    radial-gradient(circle at 50% 50%, rgba(248, 220, 232, 0.45) 0%, transparent 60%),
+    radial-gradient(circle at 20% 15%, rgba(185, 142, 255, 0.25) 0%, transparent 50%);
   background-size: cover;
   background-attachment: fixed;
   background-position: center;
@@ -56,7 +57,7 @@ body::before {
   content: '';
   position: fixed;
   inset: 0;
-  background: rgba(255, 255, 255, 0.40);
+  background: rgba(250, 246, 242, 0.45);
   z-index: -1;
   pointer-events: none;
 }
@@ -81,31 +82,38 @@ button {
   background: transparent;
 }
 ::-webkit-scrollbar-thumb {
-  background: rgba(15, 23, 42, 0.1);
+  background: rgba(116, 82, 169, 0.1);
   border-radius: 4px;
   border: 2px solid transparent;
 }
 ::-webkit-scrollbar-thumb:hover {
-  background: rgba(15, 23, 42, 0.2);
+  background: rgba(116, 82, 169, 0.2);
 }
 
 /* ========== DARK THEME OVERRIDES ========== */
 body.dark-theme {
-  --text-primary: #f8fafc;
-  --text-secondary: #cbd5e1;
-  --text-muted: #94a3b8;
-  --bg-page: #090d16;
-  --bg-white: rgba(15, 23, 42, 0.45);
-  --bg-sidebar: rgba(15, 23, 42, 0.55);
-  --border: rgba(255, 255, 255, 0.1);
-  --border-light: rgba(255, 255, 255, 0.05);
+  --text-primary: #FAF6F2;
+  --text-secondary: #C9B6FF;
+  --text-muted: #8F849E;
+  --bg-page: #0F0C15;
+  --bg-white: rgba(25, 20, 35, 0.45);
+  --bg-sidebar: rgba(25, 20, 35, 0.55);
+  --border: rgba(255, 255, 255, 0.08);
+  --border-light: rgba(255, 255, 255, 0.04);
   --shadow-sm: 0 4px 12px rgba(0, 0, 0, 0.3);
   --shadow-md: 0 8px 30px rgba(0, 0, 0, 0.4);
   --shadow-lg: 0 16px 40px rgba(0, 0, 0, 0.5);
+  --primary: #9B81D8;
+  --primary-light: #B5A0E6;
+  --primary-bg: rgba(155, 129, 216, 0.12);
+  --accent-orange: #EFA691;
+  --accent-orange-bg: rgba(239, 166, 145, 0.12);
+  --success: #EFA691;
+  --success-bg: rgba(239, 166, 145, 0.12);
 }
 
 body.dark-theme::before {
-  background: rgba(9, 13, 22, 0.70);
+  background: rgba(15, 12, 21, 0.65);
 }
 
 body.dark-theme ::-webkit-scrollbar-thumb {
@@ -164,5 +172,19 @@ body.dark-theme .category-card:hover {
 }
 body.dark-theme .category-icon-badge {
   background: rgba(15, 23, 42, 0.75);
+}
+
+/* ========== LOADING SPINNER ========== */
+.loading-spinner {
+  width: 40px;
+  height: 40px;
+  border: 4px solid rgba(142, 120, 178, 0.15);
+  border-top-color: #8E78B2;
+  border-radius: 50%;
+  animation: spin-loader 1s linear infinite;
+}
+
+@keyframes spin-loader {
+  to { transform: rotate(360deg); }
 }
 

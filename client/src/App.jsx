@@ -9,17 +9,19 @@ import EventDetailsPage from './pages/EventDetailsPage'
 import ProfilePage from './pages/ProfilePage'
 import MyTicketsPage from './pages/MyTicketsPage'
 import NotificationsPage from './pages/NotificationsPage'
+import { auth } from './firebase'
+import { onAuthStateChanged } from 'firebase/auth'
 
-/* ─── SVG ICONS ─────────────────────────────────────────── */
+/* ─── SVG ICONS (FLAT OUTLINE ICONS) ────────────────────── */
 const Icons = {
-  dashboard: (
-    <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.8" strokeLinecap="round" strokeLinejoin="round">
+  homepage: (
+    <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2.2" strokeLinecap="round" strokeLinejoin="round">
       <path d="M3 9l9-7 9 7v11a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2z" />
       <polyline points="9 22 9 12 15 12 15 22" />
     </svg>
   ),
   upcoming: (
-    <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.8" strokeLinecap="round" strokeLinejoin="round">
+    <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2.2" strokeLinecap="round" strokeLinejoin="round">
       <rect x="3" y="4" width="18" height="18" rx="2" ry="2" />
       <line x1="16" y1="2" x2="16" y2="6" />
       <line x1="8" y1="2" x2="8" y2="6" />
@@ -27,7 +29,7 @@ const Icons = {
     </svg>
   ),
   categories: (
-    <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.8" strokeLinecap="round" strokeLinejoin="round">
+    <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2.2" strokeLinecap="round" strokeLinejoin="round">
       <rect x="3" y="3" width="7" height="7" />
       <rect x="14" y="3" width="7" height="7" />
       <rect x="14" y="14" width="7" height="7" />
@@ -35,85 +37,89 @@ const Icons = {
     </svg>
   ),
   registrations: (
-    <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.8" strokeLinecap="round" strokeLinejoin="round">
+    <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2.2" strokeLinecap="round" strokeLinejoin="round">
       <path d="M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8z" />
       <polyline points="14 2 14 8 20 8" />
       <line x1="16" y1="13" x2="8" y2="13" />
       <line x1="16" y1="17" x2="8" y2="17" />
-      <polyline points="10 9 9 9 8 9" />
-    </svg>
-  ),
-  tickets: (
-    <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.8" strokeLinecap="round" strokeLinejoin="round">
-      <path d="M20.59 13.41l-7.17 7.17a2 2 0 0 1-2.83 0L2 12V2h10l8.59 8.59a2 2 0 0 1 0 2.82z" />
-      <line x1="7" y1="7" x2="7.01" y2="7" />
-    </svg>
-  ),
-  notifications: (
-    <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.8" strokeLinecap="round" strokeLinejoin="round">
-      <path d="M18 8A6 6 0 0 0 6 8c0 7-3 9-3 9h18s-3-2-3-9" />
-      <path d="M13.73 21a2 2 0 0 1-3.46 0" />
     </svg>
   ),
   profile: (
-    <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.8" strokeLinecap="round" strokeLinejoin="round">
+    <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2.2" strokeLinecap="round" strokeLinejoin="round">
       <path d="M20 21v-2a4 4 0 0 0-4-4H8a4 4 0 0 0-4 4v2" />
       <circle cx="12" cy="7" r="4" />
     </svg>
   ),
+  notifications: (
+    <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2.2" strokeLinecap="round" strokeLinejoin="round">
+      <path d="M18 8A6 6 0 0 0 6 8c0 7-3 9-3 9h18s-3-2-3-9" />
+      <path d="M13.73 21a2 2 0 0 1-3.46 0" />
+    </svg>
+  ),
   settings: (
-    <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.8" strokeLinecap="round" strokeLinejoin="round">
+    <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2.2" strokeLinecap="round" strokeLinejoin="round">
       <circle cx="12" cy="12" r="3" />
       <path d="M19.4 15a1.65 1.65 0 0 0 .33 1.82l.06.06a2 2 0 0 1-2.83 2.83l-.06-.06a1.65 1.65 0 0 0-1.82-.33 1.65 1.65 0 0 0-1 1.51V21a2 2 0 0 1-4 0v-.09A1.65 1.65 0 0 0 9 19.4a1.65 1.65 0 0 0-1.82.33l-.06.06a2 2 0 0 1-2.83-2.83l.06-.06A1.65 1.65 0 0 0 4.68 15a1.65 1.65 0 0 0-1.51-1H3a2 2 0 0 1 0-4h.09A1.65 1.65 0 0 0 4.6 9a1.65 1.65 0 0 0-.33-1.82l-.06-.06a2 2 0 0 1 2.83-2.83l.06.06A1.65 1.65 0 0 0 9 4.68a1.65 1.65 0 0 0 1-1.51V3a2 2 0 0 1 4 0v.09a1.65 1.65 0 0 0 1 1.51 1.65 1.65 0 0 0 1.82-.33l.06-.06a2 2 0 0 1 2.83 2.83l-.06.06A1.65 1.65 0 0 0 19.4 9a1.65 1.65 0 0 0 1.51 1H21a2 2 0 0 1 0 4h-.09a1.65 1.65 0 0 0-1.51 1z" />
     </svg>
   ),
   help: (
-    <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.8" strokeLinecap="round" strokeLinejoin="round">
+    <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2.2" strokeLinecap="round" strokeLinejoin="round">
       <circle cx="12" cy="12" r="10" />
       <path d="M9.09 9a3 3 0 0 1 5.83 1c0 2-3 3-3 3" />
       <line x1="12" y1="17" x2="12.01" y2="17" />
     </svg>
   ),
   logout: (
-    <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.8" strokeLinecap="round" strokeLinejoin="round">
+    <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2.2" strokeLinecap="round" strokeLinejoin="round">
       <path d="M9 21H5a2 2 0 0 1-2-2V5a2 2 0 0 1 2-2h4" />
       <polyline points="16 17 21 12 16 7" />
       <line x1="21" y1="12" x2="9" y2="12" />
     </svg>
   ),
   chevronDown: (
-    <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
+    <svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2.5" strokeLinecap="round" strokeLinejoin="round">
       <polyline points="6 9 12 15 18 9" />
     </svg>
   ),
-  scanner: (
-    <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.8" strokeLinecap="round" strokeLinejoin="round">
-      <rect x="3" y="3" width="18" height="18" rx="2" ry="2" />
-      <path d="M7 7h.01M17 7h.01M7 17h.01M17 17h.01" />
-      <line x1="3" y1="12" x2="21" y2="12" />
+  tech: (
+    <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2.5" strokeLinecap="round" strokeLinejoin="round">
+      <polyline points="16 18 22 12 16 6" />
+      <polyline points="8 6 2 12 8 18" />
     </svg>
   ),
+  nontech: (
+    <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2.5" strokeLinecap="round" strokeLinejoin="round">
+      <path d="M12 2a3 3 0 0 0-3 3v7a3 3 0 0 0 6 0V5a3 3 0 0 0-3-3Z" />
+      <path d="M19 10v1a7 7 0 0 1-14 0v-1" />
+      <line x1="12" y1="19" x2="12" y2="22" />
+    </svg>
+  ),
+  cultural: (
+    <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2.2" strokeLinecap="round" strokeLinejoin="round">
+      <path d="M2 4l3 12h14l3-12-6 7-4-7-4 7-6-7z" />
+      <rect x="5" y="16" width="14" height="4" rx="1" />
+    </svg>
+  )
 }
 
 /* ─── DATA ─────────────────────────────────────────────── */
 const navItems = [
-  { id: 'dashboard', label: 'Dashboard', iconKey: 'dashboard' },
+  { id: 'dashboard', label: 'Homepage', iconKey: 'homepage' },
   { id: 'upcoming', label: 'Upcoming Events', iconKey: 'upcoming' },
   {
     id: 'categories', label: 'Event Categories', iconKey: 'categories',
     expandable: true,
     children: [
-      { id: 'tech', label: 'Tech Events', dotColor: '#6366f1' },
-      { id: 'nontech', label: 'Non-Tech Events', dotColor: '#a855f7' },
-      { id: 'cultural', label: 'Cultural Events', dotColor: '#f97316' },
+      { id: 'tech', label: 'Tech Events', dotColor: '#8E78B2' },
+      { id: 'nontech', label: 'Non-Tech Events', dotColor: '#EC8C73' },
+      { id: 'cultural', label: 'Cultural Events', dotColor: '#C9B6FF' },
     ],
   },
   { id: 'registrations', label: 'My Registrations', iconKey: 'registrations' },
-  { id: 'tickets', label: 'My Tickets', iconKey: 'tickets' },
+  { id: 'profile', label: 'My Profile', iconKey: 'profile' },
   { id: 'notifications', label: 'Notifications', iconKey: 'notifications', badge: 2 },
-  { id: 'profile', label: 'Profile', iconKey: 'profile' },
   { id: 'settings', label: 'Settings', iconKey: 'settings' },
-  { id: 'help', label: 'Help & Support', iconKey: 'help' },
+  { id: 'help', label: 'Help', iconKey: 'help' },
 ]
 
 const categories = [
@@ -121,75 +127,68 @@ const categories = [
     id: 'tech',
     navId: 'tech',
     title: 'Tech Events',
-    desc: 'Hackathons, Workshops, Seminars and more.',
+    desc: 'Hackathons, coding, workshops & more',
     img: '/tech_event.png',
-    icon: '🖥️',
-    count: '12 Events',
-    countType: 'blue',
-    btnType: 'blue',
+    iconKey: 'tech',
   },
   {
     id: 'nontech',
     navId: 'nontech',
     title: 'Non-Tech Events',
-    desc: 'Quiz, Debates, Workshops and more.',
+    desc: 'Talks, fun events, performances & more',
     img: '/nontech_event.png',
-    icon: '🎤',
-    count: '8 Events',
-    countType: 'blue',
-    btnType: 'blue',
+    iconKey: 'nontech',
   },
   {
     id: 'cultural',
     navId: 'cultural',
     title: 'Cultural Events',
-    desc: 'Dance, Music, Drama, Fine Arts and more.',
+    desc: 'Festivals, music, arts & more',
     img: '/cultural_event.png',
-    icon: '🎭',
-    count: '10 Events',
-    countType: 'orange',
-    btnType: 'orange',
+    iconKey: 'cultural',
   },
 ]
 
 const upcomingEvents = [
   {
     id: 'codesprint',
-    title: 'CodeSprint 2025',
-    subtitle: 'Hackathon',
+    title: 'Annual Codeathon 2024',
+    desc: 'Annual Codeathon 2024 is a national, hackathon. Showcase innova...',
+    tag: 'Tech',
     img: '/tech_event.png',
-    date: '25 May 2025',
-    venue: 'Seminar Hall',
-    btnType: 'blue',
+    month: 'OCT',
+    day: '28',
+    dayName: 'SAT'
+  },
+  {
+    id: 'foodfest',
+    title: 'Global Food Fest',
+    desc: 'The festive, food festival with cultural wefood from, and more...',
+    tag: 'Cultural',
+    img: '/cultural_event.png',
+    month: 'OCT',
+    day: '30',
+    dayName: 'WED'
   },
   {
     id: 'debate',
-    title: 'Debate Championship',
-    subtitle: 'Inter-College Debate',
+    title: 'Leadership Workshop',
+    desc: 'Leadership Workshop is a leading the haryprotion ncowals to hei...',
+    tag: 'Non-Tech',
     img: '/nontech_event.png',
-    date: '28 May 2025',
-    venue: 'Auditorium',
-    btnType: 'blue',
-  },
-  {
-    id: 'rangotsav',
-    title: 'Rangotsav 2025',
-    subtitle: 'Annual Cultural Fest',
-    img: '/cultural_event.png',
-    date: '30 May 2025',
-    venue: 'Main Auditorium',
-    btnType: 'orange',
+    month: 'NOV',
+    day: '1',
+    dayName: 'FRI'
   },
 ]
 
 const registeredEvents = [
-  { id: 'codesprint', name: 'CodeSprint 2025', date: '25 May 2025', img: '/tech_event.png' },
-  { id: 'debate', name: 'Debate Championship', date: '28 May 2025', img: '/nontech_event.png' },
-  { id: 'rangotsav', name: 'Rangotsav 2025', date: '30 May 2025', img: '/cultural_event.png' },
+  { id: 'codesprint', name: 'Annual Codeathon 2024', date: '28 Oct 2024', img: '/tech_event.png' },
+  { id: 'foodfest', name: 'Global Food Fest', date: '30 Oct 2024', img: '/cultural_event.png' },
+  { id: 'debate', name: 'Leadership Workshop', date: '01 Nov 2024', img: '/nontech_event.png' },
 ]
 
-/* ─── COMPONENTS ────────────────────────────────────────── */
-
+/* ─── SIDEBAR COMPONENT ─────────────────────────────────── */
 function Sidebar({ open, onClose, activeNav, setActiveNav, onLogout, unreadCount }) {
   const [catOpen, setCatOpen] = useState(true)
 
@@ -204,10 +203,10 @@ function Sidebar({ open, onClose, activeNav, setActiveNav, onLogout, unreadCount
       <aside className={`sidebar ${open ? 'open' : ''}`}>
         {/* Logo */}
         <div className="sidebar-logo">
-          <div className="sidebar-logo-icon">★</div>
+          <div className="sidebar-logo-icon-cei">CEI</div>
           <div className="sidebar-logo-text">
-            <h1>EventHub</h1>
-            <p>Explore. Register. Participate.</p>
+            <h1 className="sidebar-logo-title-top">COLLEGE</h1>
+            <h1 className="sidebar-logo-title-bottom">EVENTS</h1>
           </div>
         </div>
 
@@ -272,36 +271,44 @@ function Sidebar({ open, onClose, activeNav, setActiveNav, onLogout, unreadCount
   )
 }
 
-const TopbarSearchIcon = () => (
-  <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
-    <circle cx="11" cy="11" r="8" /><line x1="21" y1="21" x2="16.65" y2="16.65" />
-  </svg>
-)
-
-function Topbar({ onMenuClick, showSearch, user, onProfileClick, unreadCount, onNotifClick, isDark, onThemeToggle }) {
+/* ─── TOPBAR COMPONENT ──────────────────────────────────── */
+function Topbar({ onMenuClick, activeNav, user, onProfileClick, unreadCount, onNotifClick, onBack, showBack }) {
   const defaultName = user?.email?.split('@')[0] || 'User'
   const displayName = user?.displayName || defaultName
-  const firstName = displayName.split(' ')[0]
+
+  // Map activeNav to Header Title
+  const getHeaderTitle = () => {
+    if (activeNav === 'dashboard') return 'Homepage'
+    if (activeNav === 'upcoming') return 'Upcoming Events'
+    if (activeNav === 'browse') return 'Browse Events'
+    if (activeNav === 'tech') return 'Tech Events'
+    if (activeNav === 'nontech') return 'Non-Tech Events'
+    if (activeNav === 'cultural') return 'Cultural Events'
+    if (activeNav === 'registrations') return 'My Registrations'
+    if (activeNav === 'tickets') return 'My Tickets'
+    if (activeNav === 'notifications') return 'Notifications'
+    if (activeNav === 'profile') return 'My Profile'
+    if (activeNav === 'settings') return 'Settings'
+    if (activeNav === 'help') return 'Help'
+    return 'College Events'
+  }
 
   return (
     <header className="topbar">
       <div className="topbar-left">
-        <button className="hamburger-btn" onClick={onMenuClick} aria-label="Toggle menu">
-          ☰
-        </button>
+        {showBack ? (
+          <button className="back-btn" onClick={onBack} aria-label="Go back">
+            ←
+          </button>
+        ) : (
+          <button className="hamburger-btn" onClick={onMenuClick} aria-label="Toggle menu">
+            ☰
+          </button>
+        )}
+        <h2 className="topbar-page-title">{getHeaderTitle()}</h2>
       </div>
 
-      {showSearch && (
-        <div className="topbar-search-wrap">
-          <TopbarSearchIcon />
-          <input className="topbar-search" type="text" placeholder="Search events..." />
-        </div>
-      )}
-
       <div className="topbar-right">
-        <button className="theme-toggle-btn" aria-label="Toggle theme" onClick={onThemeToggle} style={{ fontSize: '18px' }}>
-          {isDark ? '☀️' : '🌙'}
-        </button>
         <button className="notif-btn" aria-label="Notifications" onClick={onNotifClick}>
           🔔
           {unreadCount > 0 && <span className="notif-count">{unreadCount}</span>}
@@ -311,19 +318,15 @@ function Topbar({ onMenuClick, showSearch, user, onProfileClick, unreadCount, on
             name={displayName}
             photoURL={user?.photoURL}
             size={36}
-            style={{ border: '2px solid #fff', boxShadow: '0 2px 8px rgba(99,102,241,0.2)' }}
+            style={{ border: '2px solid #fff', boxShadow: '0 2px 8px rgba(142, 120, 178, 0.15)' }}
           />
-          <div className="user-info">
-            <span className="user-name">Hi, {firstName}</span>
-            <span className="user-role">Student</span>
-          </div>
-          <span className="user-chevron">▾</span>
         </div>
       </div>
     </header>
   )
 }
 
+/* ─── HERO BANNER COMPONENT ─────────────────────────────── */
 function HeroBanner({ user }) {
   const defaultName = user?.email?.split('@')[0] || 'User'
   const displayName = user?.displayName || defaultName
@@ -331,160 +334,129 @@ function HeroBanner({ user }) {
 
   return (
     <div className="hero-banner-new">
-      {/* Decorative Dots Pattern */}
-      <svg className="hero-dots-pattern" viewBox="0 0 30 40" width="30" height="40" fill="none" xmlns="http://www.w3.org/2000/svg">
-        <circle cx="5" cy="5" r="2" fill="#cbd5e1" />
-        <circle cx="15" cy="5" r="2" fill="#cbd5e1" />
-        <circle cx="25" cy="5" r="2" fill="#cbd5e1" />
-        <circle cx="5" cy="15" r="2" fill="#cbd5e1" />
-        <circle cx="15" cy="15" r="2" fill="#cbd5e1" />
-        <circle cx="25" cy="15" r="2" fill="#cbd5e1" />
-        <circle cx="5" cy="25" r="2" fill="#cbd5e1" />
-        <circle cx="15" cy="25" r="2" fill="#cbd5e1" />
-        <circle cx="25" cy="25" r="2" fill="#cbd5e1" />
-        <circle cx="5" cy="35" r="2" fill="#cbd5e1" />
-        <circle cx="15" cy="35" r="2" fill="#cbd5e1" />
-        <circle cx="25" cy="35" r="2" fill="#cbd5e1" />
-      </svg>
+      {/* Soft Sparkles Background Decorations */}
+      <span className="hero-sparkle sparkles-one">✦</span>
+      <span className="hero-sparkle sparkles-two">✦</span>
+      <span className="hero-sparkle sparkles-three">✦</span>
 
-      {/* Floating Sparkles & Rings */}
-      <svg className="hero-sparkle outline spark-top-left-blue" viewBox="0 0 24 24" fill="none" stroke="#3b82f6" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" xmlns="http://www.w3.org/2000/svg">
-        <path d="M12 2 L14 10 L22 12 L14 14 L12 22 L10 14 L2 12 L10 10 Z" />
-      </svg>
-      <span className="hero-pill-orange orange-pill-top-left"></span>
-      <span className="hero-cross-blue cross-left">+</span>
-      
-      <svg className="hero-sparkle filled spark-middle-top-yellow" viewBox="0 0 24 24" fill="#fbbf24" xmlns="http://www.w3.org/2000/svg">
-        <path d="M12 2 L14 10 L22 12 L14 14 L12 22 L10 14 L2 12 L10 10 Z" />
-      </svg>
-      
-      <span className="hero-ring ring-bottom-left"></span>
-      
-      <svg className="hero-sparkle outline spark-bottom-left-blue" viewBox="0 0 24 24" fill="none" stroke="#2563eb" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" xmlns="http://www.w3.org/2000/svg">
-        <path d="M12 2 L14 10 L22 12 L14 14 L12 22 L10 14 L2 12 L10 10 Z" />
-      </svg>
-      
-      <svg className="hero-sparkle outline spark-right-purple" viewBox="0 0 24 24" fill="none" stroke="#38bdf8" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" xmlns="http://www.w3.org/2000/svg">
-        <path d="M12 2 L14 10 L22 12 L14 14 L12 22 L10 14 L2 12 L10 10 Z" />
-      </svg>
-      <span className="hero-cross-purple cross-right">+</span>
-      
       <div className="hero-text-new">
-        <h2 className="hero-welcome">Welcome back,</h2>
-        
-        <div className="hero-name-container">
-          <span className="hero-name">{firstName}!</span>
-          <div className="hero-hand-wave-wrap">
-            <span className="hero-hand-wave">👋</span>
-            <svg className="hero-wave-lines" viewBox="0 0 20 20" width="16" height="16" fill="none" stroke="#9ca3af" strokeWidth="2.2" strokeLinecap="round">
-              <path d="M3 5 C 6 8, 6 12, 3 15" />
-              <path d="M7 3 C 11 7, 11 13, 7 17" />
-            </svg>
-          </div>
-          <svg className="hero-underline-name" viewBox="0 0 200 15" fill="none" xmlns="http://www.w3.org/2000/svg">
-            <path d="M5 10 C60 14, 130 14, 195 8" stroke="#2563eb" strokeWidth="4" strokeLinecap="round" />
-          </svg>
-        </div>
-        
+        <h2 className="hero-welcome">Welcome back, {firstName}!</h2>
         <div className="hero-sub-wrap">
-          <span className="hero-vertical-bar"></span>
-          <div className="hero-sub-text-container">
-            <p className="hero-sub-text">
-              Discover and register for <br />
-              <span className="hero-sub-highlight">exciting events.</span>
-            </p>
-            <svg className="hero-underline-sub" viewBox="0 0 150 20" fill="none" xmlns="http://www.w3.org/2000/svg">
-              <path d="M10 5 C50 8, 100 8, 140 5 C100 12, 50 15, 20 12" stroke="#2563eb" strokeWidth="2.5" strokeLinecap="round" />
-            </svg>
-          </div>
+          <p className="hero-sub-text">
+            Discover and register for <br />
+            <span className="hero-sub-highlight">exciting events.</span>
+          </p>
         </div>
       </div>
-      
-      {/* 3D Illustration */}
+
+      {/* iOS styled liquid-glass illustration */}
       <div className="hero-illustration-container">
-        <img src="/hero_illustration.png" alt="Events Illustration" className="hero-illustration-new" />
+        <div className="glass-calendar-widget">
+          <div className="calendar-hdr">OCT</div>
+          <div className="calendar-bdy">26</div>
+        </div>
+        <div className="glass-ticket-widget">
+          <div className="ticket-body">
+            <span className="ticket-star">★</span>
+            <span className="ticket-lbl">PASS</span>
+          </div>
+          <div className="ticket-sub">New events. New experiences.</div>
+          <div className="ticket-bold">Don't miss out!</div>
+        </div>
       </div>
     </div>
   )
 }
 
+/* ─── CATEGORY CARD COMPONENT ───────────────────────────── */
 function CategoryCard({ cat, onNavigate }) {
   return (
     <div
       className="category-card"
       onClick={() => onNavigate(cat.navId)}
-      style={{ cursor: 'pointer' }}
+      style={{ cursor: 'pointer', backgroundImage: `url(${cat.img})` }}
     >
-      <div className="category-img-wrap">
-        <img src={cat.img} alt={cat.title} />
-        <div className="category-icon-badge">{cat.icon}</div>
-      </div>
+      <div className="category-overlay"></div>
+      <div className="category-header-badge">{Icons[cat.iconKey]}</div>
       <div className="category-body">
         <h3>{cat.title}</h3>
         <p>{cat.desc}</p>
-        <div className="category-footer">
-          <span className={`event-count ${cat.countType === 'orange' ? 'orange' : ''}`}>
-            {cat.count}
-          </span>
-          <button
-            className={`explore-btn ${cat.btnType === 'orange' ? 'orange' : ''}`}
-            onClick={e => { e.stopPropagation(); onNavigate(cat.navId) }}
-          >
-            Explore →
-          </button>
-        </div>
+        <button
+          className="explore-btn"
+          onClick={e => { e.stopPropagation(); onNavigate(cat.navId) }}
+        >
+          Explore
+        </button>
       </div>
     </div>
   )
 }
 
-function UpcomingEventCard({ evt }) {
+/* ─── UPCOMING EVENT CARD COMPONENT ─────────────────────── */
+function UpcomingEventCard({ evt, onNavigate }) {
   return (
     <div className="upcoming-card">
-      <img src={evt.img} alt={evt.title} className="upcoming-card-img" />
+      <div className="upcoming-img-container">
+        <img src={evt.img} alt={evt.title} className="upcoming-card-img" />
+        
+        {/* Floating Date Badge */}
+        <div className="upcoming-date-badge">
+          <span className="badge-month">{evt.month}</span>
+          <span className="badge-day">{evt.day}</span>
+          <span className="badge-dayname">{evt.dayName}</span>
+        </div>
+
+        {/* Floating Category Tag */}
+        <span className="upcoming-category-tag">{evt.tag}</span>
+      </div>
+
       <div className="upcoming-card-content">
         <div className="upcoming-card-title">{evt.title}</div>
-        <div className="upcoming-card-subtitle">{evt.subtitle}</div>
+        <div className="upcoming-card-desc">{evt.desc}</div>
+        <button className="register-btn" onClick={() => onNavigate('browse')}>
+          Register Now
+        </button>
       </div>
-      <div className="upcoming-meta">
-        <div className="meta-row">
-          <span className="meta-icon">📅</span>
-          <span>{evt.date}</span>
-        </div>
-        <div className="meta-row">
-          <span className="meta-icon">📍</span>
-          <span>{evt.venue}</span>
-        </div>
-      </div>
-      <button className={`register-btn ${evt.btnType === 'orange' ? 'orange' : ''}`}>
-        Register Now
-      </button>
     </div>
   )
 }
 
+/* ─── PROFILE WIDGET COMPONENT ──────────────────────────── */
 function ProfileCard({ user, onNavigate }) {
   const defaultName = user?.email?.split('@')[0] || 'User'
   const displayName = user?.displayName || defaultName
-  const email = user?.email || 'user@example.com'
 
   return (
     <div className="profile-card">
       <AvatarInitial
         name={displayName}
         photoURL={user?.photoURL}
-        size={72}
-        style={{ margin: '0 auto 12px' }}
+        size={68}
+        style={{ margin: '0 auto 10px', border: '3px solid rgba(255, 255, 255, 0.8)', boxShadow: '0 8px 20px rgba(116, 82, 169, 0.1)' }}
       />
       <div className="profile-card-name">{displayName}</div>
-      <div className="profile-card-info">B.Tech CSE</div>
-      <div className="profile-card-info">2nd Year</div>
-      <div className="profile-card-email">{email}</div>
-      <button className="view-profile-btn" onClick={() => onNavigate('profile')}>View Profile</button>
+      <div className="profile-card-info">B.Tech - Year 3</div>
+      
+      {/* Stats Section */}
+      <div className="profile-stats-grid">
+        <div className="stat-box">
+          <span className="stat-label">Upcoming Events</span>
+          <span className="stat-value">2</span>
+        </div>
+        <div className="stat-box">
+          <span className="stat-label">Zeta</span>
+          <span className="stat-value">4</span>
+        </div>
+      </div>
+
+      <button className="view-profile-btn" onClick={() => onNavigate('profile')}>
+        View Profile
+      </button>
     </div>
   )
 }
 
+/* ─── REGISTERED EVENTS PANEL COMPONENT ─────────────────── */
 function RegisteredEventsPanel({ onNavigate }) {
   return (
     <div className="panel-card">
@@ -493,16 +465,18 @@ function RegisteredEventsPanel({ onNavigate }) {
         <span className="panel-view-all" onClick={() => onNavigate('tickets')} style={{cursor: 'pointer'}}>View All</span>
       </div>
 
-      {registeredEvents.map(evt => (
-        <div className="reg-event-item" key={evt.id}>
-          <img src={evt.img} alt={evt.name} className="reg-event-img" />
-          <div className="reg-event-info">
-            <div className="reg-event-name">{evt.name}</div>
-            <div className="reg-event-date">{evt.date}</div>
-            <div className="reg-event-status">Registered</div>
+      <div className="reg-events-list">
+        {registeredEvents.map(evt => (
+          <div className="reg-event-item" key={evt.id}>
+            <img src={evt.img} alt={evt.name} className="reg-event-img" />
+            <div className="reg-event-info">
+              <div className="reg-event-name">{evt.name}</div>
+              <div className="reg-event-date">{evt.date}</div>
+              <div className="reg-event-status">Registered</div>
+            </div>
           </div>
-        </div>
-      ))}
+        ))}
+      </div>
 
       <button className="view-tickets-btn" onClick={() => onNavigate('tickets')}>
         🎟️ View My Tickets
@@ -511,6 +485,7 @@ function RegisteredEventsPanel({ onNavigate }) {
   )
 }
 
+/* ─── QUICK LINKS PANEL COMPONENT ───────────────────────── */
 function QuickLinksPanel() {
   const links = [
     { icon: '📋', label: 'Event Guidelines' },
@@ -522,23 +497,69 @@ function QuickLinksPanel() {
       <div className="panel-header">
         <span className="panel-title">Quick Links</span>
       </div>
-      {links.map(l => (
-        <div className="quick-link-item" key={l.label}>
-          <span className="quick-link-icon">{l.icon}</span>
-          {l.label}
-        </div>
-      ))}
+      <div className="quick-links-list">
+        {links.map(l => (
+          <div className="quick-link-item" key={l.label}>
+            <span className="quick-link-icon">{l.icon}</span>
+            <span className="quick-link-label">{l.label}</span>
+          </div>
+        ))}
+      </div>
     </div>
   )
 }
 
-/* ─── APP ───────────────────────────────────────────────── */
+/* ─── MAIN APP CONTAINER ────────────────────────────────── */
 export default function App() {
   const [user, setUser] = useState(null)
+  const [loadingAuth, setLoadingAuth] = useState(true)
   const [sidebarOpen, setSidebarOpen] = useState(false)
-  const [activeNav, setActiveNav] = useState('dashboard')
+  
+  const [activeNav, setActiveNav] = useState(() => {
+    return localStorage.getItem('activeNav') || 'dashboard'
+  })
+  
+  const [navHistory, setNavHistory] = useState(() => {
+    const savedNav = localStorage.getItem('activeNav') || 'dashboard'
+    return savedNav === 'dashboard' ? ['dashboard'] : ['dashboard', savedNav]
+  })
+  
   const [previousNav, setPreviousNav] = useState('tech')
   const [selectedEvent, setSelectedEvent] = useState(null)
+
+  useEffect(() => {
+    const unsubscribe = onAuthStateChanged(auth, (currentUser) => {
+      if (currentUser) {
+        setUser(currentUser)
+      } else {
+        setUser(null)
+      }
+      setLoadingAuth(false)
+    })
+    return () => unsubscribe()
+  }, [])
+
+  const navigateTo = (pageId) => {
+    if (pageId === activeNav) return
+    localStorage.setItem('activeNav', pageId)
+    setNavHistory(prev => [...prev, pageId])
+    setActiveNav(pageId)
+  }
+
+  const navigateBack = () => {
+    if (navHistory.length <= 1) {
+      localStorage.setItem('activeNav', 'dashboard')
+      setNavHistory(['dashboard'])
+      setActiveNav('dashboard')
+      return
+    }
+    const newHistory = [...navHistory]
+    newHistory.pop()
+    const prevPage = newHistory[newHistory.length - 1]
+    localStorage.setItem('activeNav', prevPage)
+    setNavHistory(newHistory)
+    setActiveNav(prevPage)
+  }
 
   const [isDark, setIsDark] = useState(() => {
     try {
@@ -562,7 +583,7 @@ export default function App() {
     }
   }, [isDark])
 
-  // -- Announcements / Broadcaster States --
+  // -- Announcements States --
   const [announcements, setAnnouncements] = useState([])
   const [readNotifications, setReadNotifications] = useState(() => {
     try {
@@ -583,8 +604,6 @@ export default function App() {
         setAnnouncements(fetched);
 
         const savedRead = JSON.parse(localStorage.getItem('readNotifications') || '[]');
-        
-        // Find newest unread announcement within last 3 minutes
         const freshUnread = fetched.find(ann => {
           if (savedRead.includes(ann.id)) return false;
           const ageMs = Date.now() - new Date(ann.timestamp).getTime();
@@ -641,8 +660,22 @@ export default function App() {
   const navigateToEventDetails = (evt, categoryNav) => {
     setSelectedEvent(evt);
     setPreviousNav(categoryNav);
-    setActiveNav('event-details');
+    navigateTo('event-details');
   };
+
+  if (loadingAuth) {
+    return (
+      <div className="auth-centered-page">
+        <div className="auth-glow-blob blob-one"></div>
+        <div className="auth-glow-blob blob-two"></div>
+        <div className="auth-noise-overlay"></div>
+        <div className="auth-card" style={{ display: 'flex', flexDirection: 'column', alignItems: 'center', justifyContent: 'center', minHeight: '200px' }}>
+          <div className="loading-spinner"></div>
+          <p style={{ marginTop: '16px', color: '#7E748B', fontWeight: 600 }}>Loading EventHub...</p>
+        </div>
+      </div>
+    )
+  }
 
   if (!user) {
     return <AuthPage onLogin={setUser} />
@@ -650,11 +683,23 @@ export default function App() {
 
   return (
     <div className="app">
+      {/* Soft Floating Blurry Background Gradients */}
+      <div className="auth-glow-blob blob-one"></div>
+      <div className="auth-glow-blob blob-two"></div>
+      <div className="auth-glow-blob blob-three"></div>
+      <div className="auth-glow-blob blob-four"></div>
+      <div className="auth-noise-overlay"></div>
+
+      {/* Floating Translucent Glass Circles */}
+      <div className="glass-shape shape-one"></div>
+      <div className="glass-shape shape-two"></div>
+      <div className="glass-shape shape-three"></div>
+
       {/* Real-time floating toast alert overlay */}
       {activeToast && (
         <div className={`live-toast-alert severity-${activeToast.alertLevel}`} onClick={() => {
           handleMarkSingleAsRead(activeToast.id);
-          setActiveNav('notifications');
+          navigateTo('notifications');
           setActiveToast(null);
         }}>
           <div className="toast-icon">
@@ -679,8 +724,13 @@ export default function App() {
         open={sidebarOpen}
         onClose={() => setSidebarOpen(false)}
         activeNav={activeNav}
-        setActiveNav={setActiveNav}
-        onLogout={() => { setUser(null); setActiveNav('dashboard') }}
+        setActiveNav={navigateTo}
+        onLogout={() => {
+          auth.signOut()
+          setUser(null)
+          localStorage.removeItem('activeNav')
+          navigateTo('dashboard')
+        }}
         unreadCount={unreadCount}
       />
 
@@ -688,12 +738,12 @@ export default function App() {
         <Topbar
           user={user}
           onMenuClick={() => setSidebarOpen(o => !o)}
-          showSearch={['tech', 'nontech', 'cultural'].includes(activeNav)}
-          onProfileClick={() => setActiveNav('profile')}
+          activeNav={activeNav}
+          onProfileClick={() => navigateTo('profile')}
           unreadCount={unreadCount}
-          onNotifClick={() => setActiveNav('notifications')}
-          isDark={isDark}
-          onThemeToggle={() => setIsDark(!isDark)}
+          onNotifClick={() => navigateTo('notifications')}
+          onBack={navigateBack}
+          showBack={activeNav !== 'dashboard'}
         />
 
         {activeNav === 'tech' ? (
@@ -703,7 +753,7 @@ export default function App() {
         ) : activeNav === 'cultural' ? (
           <CulturalEventsPage onNavigateToEvent={(evt) => navigateToEventDetails(evt, 'cultural')} />
         ) : activeNav === 'event-details' ? (
-          <EventDetailsPage evt={selectedEvent} onBack={() => setActiveNav(previousNav)} user={user} />
+          <EventDetailsPage evt={selectedEvent} onBack={navigateBack} user={user} />
         ) : activeNav === 'tickets' || activeNav === 'registrations' ? (
           <MyTicketsPage user={user} />
         ) : activeNav === 'notifications' ? (
@@ -714,8 +764,26 @@ export default function App() {
             onMarkSingleAsRead={handleMarkSingleAsRead} 
           />
         ) : activeNav === 'profile' ? (
-          <ProfilePage user={user} onBack={() => setActiveNav('dashboard')} onUpdateUser={setUser} />
+          <ProfilePage user={user} onBack={navigateBack} onUpdateUser={setUser} />
+        ) : activeNav === 'browse' ? (
+          <div className="page-content">
+            <div className="content-area" style={{ gap: '24px' }}>
+              <div className="section-header">
+                <h2 className="section-title">All Categories</h2>
+              </div>
+              <div className="category-grid">
+                {categories.map(cat => (
+                  <CategoryCard
+                    key={cat.id}
+                    cat={cat}
+                    onNavigate={navigateTo}
+                  />
+                ))}
+              </div>
+            </div>
+          </div>
         ) : (
+          /* Default Dashboard/Homepage View */
           <div className="page-content">
             {/* Centre Column */}
             <div className="content-area">
@@ -724,14 +792,14 @@ export default function App() {
               {/* Event Categories */}
               <div>
                 <div className="section-header">
-                  <h2 className="section-title">Event Categories</h2>
+                  <h2 className="section-title">Explore Event Categories</h2>
                 </div>
                 <div className="category-grid">
                   {categories.map(cat => (
                     <CategoryCard
                       key={cat.id}
                       cat={cat}
-                      onNavigate={setActiveNav}
+                      onNavigate={navigateTo}
                     />
                   ))}
                 </div>
@@ -741,21 +809,24 @@ export default function App() {
               <div className="upcoming-section">
                 <div className="upcoming-header">
                   <h2 className="section-title">Upcoming Events</h2>
-                  <span className="view-all-link">View All</span>
+                  <span className="view-all-link" onClick={() => navigateTo('browse')} style={{ cursor: 'pointer' }}>
+                    View All Events →
+                  </span>
                 </div>
                 <div className="upcoming-scroll">
                   <div className="upcoming-list">
-                    {upcomingEvents.map(evt => <UpcomingEventCard key={evt.id} evt={evt} />)}
+                    {upcomingEvents.map(evt => (
+                      <UpcomingEventCard key={evt.id} evt={evt} onNavigate={navigateTo} />
+                    ))}
                   </div>
-                  <button className="upcoming-nav-btn" aria-label="Next events">›</button>
                 </div>
               </div>
             </div>
 
             {/* Right Panel */}
             <aside className="right-panel">
-              <ProfileCard user={user} onNavigate={setActiveNav} />
-              <RegisteredEventsPanel onNavigate={setActiveNav} />
+              <ProfileCard user={user} onNavigate={navigateTo} />
+              <RegisteredEventsPanel onNavigate={navigateTo} />
               <QuickLinksPanel />
             </aside>
           </div>
