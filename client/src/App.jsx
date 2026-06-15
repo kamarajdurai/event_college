@@ -158,7 +158,8 @@ const upcomingEvents = [
     img: '/tech_event.png',
     month: 'OCT',
     day: '28',
-    dayName: 'SAT'
+    dayName: 'SAT',
+    location: 'Bangalore, India'
   },
   {
     id: 'foodfest',
@@ -168,7 +169,8 @@ const upcomingEvents = [
     img: '/cultural_event.png',
     month: 'OCT',
     day: '30',
-    dayName: 'WED'
+    dayName: 'WED',
+    location: 'Chennai, India'
   },
   {
     id: 'debate',
@@ -178,7 +180,8 @@ const upcomingEvents = [
     img: '/nontech_event.png',
     month: 'NOV',
     day: '1',
-    dayName: 'FRI'
+    dayName: 'FRI',
+    location: 'Hyderabad, India'
   },
 ]
 
@@ -298,14 +301,30 @@ function Topbar({ onMenuClick, activeNav, user, onProfileClick, unreadCount, onN
       <div className="topbar-left">
         {showBack ? (
           <button className="back-btn" onClick={onBack} aria-label="Go back">
-            ←
+            <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2.5" strokeLinecap="round" strokeLinejoin="round">
+              <polyline points="15 18 9 12 15 6" />
+            </svg>
           </button>
         ) : (
           <button className="hamburger-btn" onClick={onMenuClick} aria-label="Toggle menu">
             ☰
           </button>
         )}
-        <h2 className="topbar-page-title">{getHeaderTitle()}</h2>
+        <h2 className="topbar-page-title desktop-only">{getHeaderTitle()}</h2>
+      </div>
+
+      <div className="topbar-center mobile-only">
+        {activeNav === 'dashboard' ? (
+          <div className="topbar-logo-mobile">
+            <span className="logo-circle-mobile">CH</span>
+            <div className="logo-text-mobile">
+              <span className="logo-text-sub">COLLEGE</span>
+              <span className="logo-text-main">EVENTS</span>
+            </div>
+          </div>
+        ) : (
+          <h2 className="topbar-page-title-mobile">{getHeaderTitle()}</h2>
+        )}
       </div>
 
       <div className="topbar-right">
@@ -313,7 +332,7 @@ function Topbar({ onMenuClick, activeNav, user, onProfileClick, unreadCount, onN
           🔔
           {unreadCount > 0 && <span className="notif-count">{unreadCount}</span>}
         </button>
-        <div className="user-profile" onClick={onProfileClick} style={{ cursor: 'pointer' }}>
+        <div className="user-profile desktop-only" onClick={onProfileClick} style={{ cursor: 'pointer' }}>
           <AvatarInitial
             name={displayName}
             photoURL={user?.photoURL}
@@ -348,8 +367,8 @@ function HeroBanner({ user }) {
         <h2 className="hero-welcome">Welcome back, {firstName}!</h2>
         <div className="hero-sub-wrap">
           <p className="hero-sub-text">
-            Discover and register for <br />
-            <span className="hero-sub-highlight">exciting events.</span>
+            Discover and book your next <br />
+            <span className="hero-sub-highlight">amazing events.</span>
           </p>
         </div>
       </div>
@@ -360,13 +379,13 @@ function HeroBanner({ user }) {
           <div className="calendar-hdr">{currentMonth}</div>
           <div className="calendar-bdy">{currentDay}</div>
         </div>
-        <div className="glass-ticket-widget">
-          <div className="ticket-body">
-            <span className="ticket-star">★</span>
-            <span className="ticket-lbl">PASS</span>
+        <div className="glass-featured-widget">
+          <div className="featured-dot-tag">
+            <span className="featured-dot-icon">🟠</span>
+            <span className="featured-tag-lbl">Featured Event</span>
           </div>
-          <div className="ticket-sub">New events. New experiences.</div>
-          <div className="ticket-bold">Don't miss out!</div>
+          <h4 className="featured-title">Renaissance Vibes Music Festival</h4>
+          <p className="featured-time">06:00 PM onwards</p>
         </div>
       </div>
     </div>
@@ -418,6 +437,10 @@ function UpcomingEventCard({ evt, onNavigate }) {
       <div className="upcoming-card-content">
         <div className="upcoming-card-title">{evt.title}</div>
         <div className="upcoming-card-desc">{evt.desc}</div>
+        <div className="upcoming-card-location">
+          <span className="location-icon-pin">📍</span>
+          <span className="location-text-lbl">{evt.location || 'College Campus'}</span>
+        </div>
         <button className="register-btn" onClick={() => onNavigate('browse')}>
           Register Now
         </button>
@@ -491,11 +514,12 @@ function RegisteredEventsPanel({ onNavigate }) {
 }
 
 /* ─── QUICK LINKS PANEL COMPONENT ───────────────────────── */
-function QuickLinksPanel() {
+function QuickLinksPanel({ onNavigate }) {
   const links = [
-    { icon: '📋', label: 'Event Guidelines' },
-    { icon: '❓', label: 'Frequently Asked Questions' },
-    { icon: '📞', label: 'Contact Support' },
+    { icon: '🎫', label: 'View All Tickets', bgColor: 'rgba(236, 140, 115, 0.15)', iconColor: '#EC8C73', navId: 'tickets' },
+    { icon: '💳', label: 'Payment History', bgColor: 'rgba(142, 120, 178, 0.15)', iconColor: '#8E78B2', navId: 'tickets' },
+    { icon: '👥', label: 'Invite Friends', bgColor: 'rgba(79, 70, 229, 0.15)', iconColor: '#4f46e5' },
+    { icon: '❓', label: 'Help Center', bgColor: 'rgba(16, 185, 129, 0.15)', iconColor: '#10b981', navId: 'help' },
   ]
   return (
     <div className="panel-card">
@@ -504,13 +528,92 @@ function QuickLinksPanel() {
       </div>
       <div className="quick-links-list">
         {links.map(l => (
-          <div className="quick-link-item" key={l.label}>
-            <span className="quick-link-icon">{l.icon}</span>
+          <div 
+            className="quick-link-item" 
+            key={l.label}
+            onClick={() => l.navId && onNavigate && onNavigate(l.navId)}
+            style={{ cursor: l.navId ? 'pointer' : 'default' }}
+          >
+            <span 
+              className="quick-link-icon" 
+              style={{ backgroundColor: l.bgColor, color: l.iconColor }}
+            >
+              {l.icon}
+            </span>
             <span className="quick-link-label">{l.label}</span>
           </div>
         ))}
       </div>
     </div>
+  )
+}
+
+/* ─── BOTTOM NAV COMPONENT ──────────────────────────────── */
+function BottomNav({ activeNav, setActiveNav }) {
+  const tabs = [
+    { 
+      id: 'dashboard', 
+      label: 'Home', 
+      icon: (
+        <svg width="20" height="20" viewBox="0 0 24 24" fill="currentColor">
+          <path d="M10 20v-6h4v6h5v-8h3L12 3 2 12h3v8z" />
+        </svg>
+      ) 
+    },
+    { 
+      id: 'browse', 
+      label: 'Events', 
+      icon: (
+        <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2.2" strokeLinecap="round" strokeLinejoin="round">
+          <rect x="3" y="4" width="18" height="18" rx="2" ry="2" />
+          <line x1="16" y1="2" x2="16" y2="6" />
+          <line x1="8" y1="2" x2="8" y2="6" />
+          <line x1="3" y1="10" x2="21" y2="10" />
+        </svg>
+      ) 
+    },
+    { 
+      id: 'tickets', 
+      label: 'Tickets', 
+      icon: (
+        <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2.2" strokeLinecap="round" strokeLinejoin="round" style={{ transform: 'rotate(-20deg)' }}>
+          <rect x="2" y="5" width="20" height="14" rx="2" />
+          <path d="M2 12a2 2 0 0 1 2-2 2 2 0 0 1-2-2" />
+          <path d="M22 12a2 2 0 0 0-2-2 2 2 0 0 0 2-2" />
+          <line x1="7" y1="5" x2="7" y2="19" strokeDasharray="3 3" />
+        </svg>
+      ) 
+    },
+    { 
+      id: 'profile', 
+      label: 'Profile', 
+      icon: (
+        <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2.2" strokeLinecap="round" strokeLinejoin="round">
+          <path d="M20 21v-2a4 4 0 0 0-4-4H8a4 4 0 0 0-4 4v2" />
+          <circle cx="12" cy="7" r="4" />
+        </svg>
+      ) 
+    }
+  ];
+
+  return (
+    <nav className="bottom-nav">
+      {tabs.map(t => {
+        const isActive = activeNav === t.id || 
+          (t.id === 'browse' && (activeNav === 'tech' || activeNav === 'nontech' || activeNav === 'cultural'));
+        const isTicketsActive = t.id === 'tickets' && (activeNav === 'tickets' || activeNav === 'registrations');
+        return (
+          <button
+            key={t.id}
+            className={`bottom-nav-item ${isActive || isTicketsActive ? 'active' : ''}`}
+            onClick={() => setActiveNav(t.id)}
+          >
+            <span className="bottom-nav-icon">{t.icon}</span>
+            <span className="bottom-nav-label">{t.label}</span>
+          </button>
+        )
+      })}
+    </nav>
   )
 }
 
@@ -826,17 +929,31 @@ export default function App() {
                   </div>
                 </div>
               </div>
+
+              {/* Newsletter Subscription Card */}
+              <div className="newsletter-card">
+                <div className="newsletter-icon-box">✉️</div>
+                <div className="newsletter-content">
+                  <h3>Never miss an Update!</h3>
+                  <p>Subscribe to our newsletter to be the first to know about exciting upcoming events.</p>
+                </div>
+                <form className="newsletter-form" onSubmit={(e) => { e.preventDefault(); alert('Subscribed successfully!'); }}>
+                  <input type="email" placeholder="Enter your email" required className="newsletter-input" />
+                  <button type="submit" className="newsletter-btn">Subscribe</button>
+                </form>
+              </div>
             </div>
 
             {/* Right Panel */}
             <aside className="right-panel">
               <ProfileCard user={user} onNavigate={navigateTo} />
               <RegisteredEventsPanel onNavigate={navigateTo} />
-              <QuickLinksPanel />
+              <QuickLinksPanel onNavigate={navigateTo} />
             </aside>
           </div>
         )}
       </div>
+      <BottomNav activeNav={activeNav} setActiveNav={navigateTo} />
     </div>
   )
 }

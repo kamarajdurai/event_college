@@ -299,6 +299,15 @@
   }
 }
 
+@media (max-width: 480px) {
+  .manual-input-wrap {
+    flex-direction: column;
+  }
+  .manual-input-wrap button {
+    width: 100%;
+  }
+}
+
 /* MANUAL ENTRY FALLBACK */
 .manual-entry-divider {
   display: flex;
