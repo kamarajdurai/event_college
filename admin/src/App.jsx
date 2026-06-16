@@ -13,12 +13,79 @@ import AvatarInitial from './components/AvatarInitial';
 
 import './App.css';
 
+const Icons = {
+  dashboard: (
+    <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2.2" strokeLinecap="round" strokeLinejoin="round">
+      <path d="M3 9l9-7 9 7v11a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2z" />
+      <polyline points="9 22 9 12 15 12 15 22" />
+    </svg>
+  ),
+  manageEvents: (
+    <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2.2" strokeLinecap="round" strokeLinejoin="round">
+      <rect x="3" y="4" width="18" height="18" rx="2" ry="2" />
+      <line x1="16" y1="2" x2="16" y2="6" />
+      <line x1="8" y1="2" x2="8" y2="6" />
+      <line x1="3" y1="10" x2="21" y2="10" />
+      <path d="M8 14h.01M12 14h.01M16 14h.01M8 18h.01M12 18h.01M16 18h.01" strokeWidth="2.5" strokeLinecap="round" />
+    </svg>
+  ),
+  qrScanner: (
+    <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2.2" strokeLinecap="round" strokeLinejoin="round">
+      <path d="M4 8V5a2 2 0 0 1 2-2h3M15 3h3a2 2 0 0 1 2 2v3M4 16v3a2 2 0 0 0 2 2h3M15 21h3a2 2 0 0 0 2-2v-3" />
+      <rect x="8" y="8" width="3" height="3" rx="0.5" />
+      <rect x="13" y="8" width="3" height="3" rx="0.5" />
+      <rect x="8" y="13" width="3" height="3" rx="0.5" />
+      <rect x="13" y="13" width="3" height="3" rx="0.5" />
+    </svg>
+  ),
+  attendanceSheet: (
+    <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2.2" strokeLinecap="round" strokeLinejoin="round">
+      <path d="M16 4h2a2 2 0 0 1 2 2v14a2 2 0 0 1-2 2H6a2 2 0 0 1-2-2V6a2 2 0 0 1 2-2h2" />
+      <rect x="8" y="2" width="8" height="4" rx="1" ry="1" />
+      <polyline points="9 13 11 15 15 11" />
+    </svg>
+  ),
+  broadcastAlerts: (
+    <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2.2" strokeLinecap="round" strokeLinejoin="round">
+      <path d="M18 8A6 6 0 0 0 6 8c0 7-3 9-3 9h18s-3-2-3-9M13.73 21a2 2 0 0 1-3.46 0" />
+      <circle cx="19" cy="17" r="2.5" fill="currentColor" />
+    </svg>
+  ),
+  logout: (
+    <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2.2" strokeLinecap="round" strokeLinejoin="round">
+      <path d="M9 21H5a2 2 0 0 1-2-2V5a2 2 0 0 1 2-2h4M16 17l5-5-5-5M21 12H9" />
+    </svg>
+  )
+};
+
 export default function App() {
   const [user, setUser] = useState(null);
   const [role, setRole] = useState(''); // 'admin' or 'staff'
   const [loading, setLoading] = useState(true);
   const [activeNav, setActiveNav] = useState('dashboard');
   const [sidebarOpen, setSidebarOpen] = useState(false);
+
+  const [isDark, setIsDark] = useState(() => {
+    try {
+      return localStorage.getItem('theme') === 'dark';
+    } catch (e) {
+      return false;
+    }
+  });
+
+  useEffect(() => {
+    try {
+      if (isDark) {
+        document.body.classList.add('dark-theme');
+        localStorage.setItem('theme', 'dark');
+      } else {
+        document.body.classList.remove('dark-theme');
+        localStorage.setItem('theme', 'light');
+      }
+    } catch (e) {
+      console.error(e);
+    }
+  }, [isDark]);
 
   useEffect(() => {
     const unsubscribe = onAuthStateChanged(auth, async (currentUser) => {
@@ -79,6 +146,13 @@ export default function App() {
 
   return (
     <div className="admin-app-layout">
+      {/* Dynamic Background Blobs */}
+      <div className="auth-glow-blob blob-one"></div>
+      <div className="auth-glow-blob blob-two"></div>
+      <div className="auth-glow-blob blob-three"></div>
+      <div className="auth-glow-blob blob-four"></div>
+      <div className="auth-noise-overlay"></div>
+
       {/* Sidebar Overlay */}
       <div className={`sidebar-overlay ${sidebarOpen ? 'open' : ''}`} onClick={() => setSidebarOpen(false)} />
       
@@ -106,7 +180,8 @@ export default function App() {
             className={`menu-item ${activeNav === 'dashboard' ? 'active' : ''}`}
             onClick={() => { setActiveNav('dashboard'); setSidebarOpen(false); }}
           >
-            📊 Dashboard
+            {Icons.dashboard}
+            Dashboard
           </button>
           
           {role === 'admin' && (
@@ -114,7 +189,8 @@ export default function App() {
               className={`menu-item ${activeNav === 'manage-events' ? 'active' : ''}`}
               onClick={() => { setActiveNav('manage-events'); setSidebarOpen(false); }}
             >
-              📅 Manage Events
+              {Icons.manageEvents}
+              Manage Events
             </button>
           )}
 
@@ -122,27 +198,31 @@ export default function App() {
             className={`menu-item ${activeNav === 'scanner' ? 'active' : ''}`}
             onClick={() => { setActiveNav('scanner'); setSidebarOpen(false); }}
           >
-            📷 QR Scanner
+            {Icons.qrScanner}
+            QR Scanner
           </button>
 
           <button 
             className={`menu-item ${activeNav === 'attendance' ? 'active' : ''}`}
             onClick={() => { setActiveNav('attendance'); setSidebarOpen(false); }}
           >
-            📋 Attendance Sheet
+            {Icons.attendanceSheet}
+            Attendance Sheet
           </button>
 
           <button 
             className={`menu-item ${activeNav === 'broadcast' ? 'active' : ''}`}
             onClick={() => { setActiveNav('broadcast'); setSidebarOpen(false); }}
           >
-            📣 Broadcast Alerts
+            {Icons.broadcastAlerts}
+            Broadcast Alerts
           </button>
 
           <div className="menu-divider"></div>
 
           <button className="menu-item menu-logout" onClick={handleLogout}>
-            🚪 Log Out
+            {Icons.logout}
+            Log Out
           </button>
         </nav>
       </aside>
@@ -157,6 +237,9 @@ export default function App() {
             {activeNav === 'dashboard' ? 'Analytics Dashboard' : activeNav === 'manage-events' ? 'Event Catalogue Editor' : activeNav === 'scanner' ? 'Entrance QR Verification' : activeNav === 'broadcast' ? 'Broadcast Alerts Hub' : 'Attendance Register'}
           </div>
           <div className="topbar-user">
+            <button className="theme-toggle-btn" onClick={() => setIsDark(d => !d)} title="Toggle Theme">
+              {isDark ? '☀️' : '🌙'}
+            </button>
             <span className="user-badge">{role.toUpperCase()}</span>
             <span className="user-name">Hi, {welcomeName}</span>
           </div>
