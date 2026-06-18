@@ -1,8 +1,9 @@
 import React, { useEffect, useState, useRef } from 'react';
 import { Html5QrcodeScanner } from 'html5-qrcode';
 import './Scanner.css';
+import { API_BASE_URL } from '../config';
 
-const API_BASE = 'http://localhost:5000/api';
+const API_BASE = API_BASE_URL;
 
 export default function ScannerPage() {
   const [ticketData, setTicketData] = useState(null);

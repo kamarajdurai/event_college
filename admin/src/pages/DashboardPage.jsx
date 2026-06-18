@@ -1,5 +1,6 @@
 import { useState, useEffect } from 'react';
 import './Dashboard.css';
+import { API_BASE_URL } from '../config';
 
 export default function DashboardPage({ user, role, onNavigate }) {
   const [stats, setStats] = useState({ totalEvents: 0, totalRegistrations: 0, checkedIn: 0, checkInRate: 0 });
@@ -11,17 +12,17 @@ export default function DashboardPage({ user, role, onNavigate }) {
     const fetchDashboardData = async () => {
       try {
         // Fetch events
-        const evRes = await fetch('http://localhost:5000/api/events');
+        const evRes = await fetch(`${API_BASE_URL}/events`);
         const evData = await evRes.json();
         const totalEvs = evData.success ? evData.count : 0;
 
         // Fetch registrations stats
-        const statRes = await fetch('http://localhost:5000/api/registrations/stats');
+        const statRes = await fetch(`${API_BASE_URL}/registrations/stats`);
         const statData = await statRes.json();
         const regStats = statData.success ? statData.stats : { total: 0, checkedIn: 0 };
 
         // Fetch recent registrations list
-        const regListRes = await fetch('http://localhost:5000/api/registrations');
+        const regListRes = await fetch(`${API_BASE_URL}/registrations`);
         const regListData = await regListRes.json();
         const regList = regListData.success ? regListData.registrations.slice(0, 5) : [];
 

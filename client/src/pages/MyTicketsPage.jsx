@@ -1,8 +1,9 @@
 import React, { useState, useEffect } from 'react';
 import './EventPage.css'; // Reusing base styles where possible
 import TicketModal from '../components/TicketModal';
+import { API_BASE_URL } from '../config';
 
-const API_BASE = 'http://localhost:5000/api';
+const API_BASE = API_BASE_URL;
 
 export default function MyTicketsPage({ user }) {
   const [tickets, setTickets] = useState([]);

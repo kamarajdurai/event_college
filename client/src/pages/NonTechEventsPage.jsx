@@ -1,5 +1,6 @@
 import { useState, useMemo, useEffect } from 'react'
 import './EventPage.css'
+import { API_BASE_URL } from '../config'
 
 /* ─── DATA ─────────────────────────────────────────────── */
 const nonTechEvents = [
@@ -209,7 +210,7 @@ export default function NonTechEventsPage({ onNavigateToEvent }) {
   const [events, setEvents]     = useState(nonTechEvents)
 
   useEffect(() => {
-    fetch('http://localhost:5000/api/events?category=nontech')
+    fetch(`${API_BASE_URL}/events?category=nontech`)
       .then(res => res.json())
       .then(data => {
         if (data.success && data.events && data.events.length > 0) {

@@ -2,6 +2,7 @@ import React, { useState, useEffect } from 'react';
 import './EventDetails.css';
 import TicketModal from '../components/TicketModal';
 import RegistrationModal from '../components/RegistrationModal';
+import { API_BASE_URL } from '../config';
 
 
 const Icons = {
@@ -24,7 +25,7 @@ const Icons = {
   org: <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="#6b7280" strokeWidth="2"><circle cx="12" cy="12" r="10"/><path d="M12 8v4l3 3"/></svg>
 };
 
-const API_BASE = 'http://localhost:5000/api';
+const API_BASE = API_BASE_URL;
 
 export default function EventDetailsPage({ onBack, evt, user }) {
   const [activeTab, setActiveTab] = useState('About');

@@ -1,5 +1,6 @@
 import { useState, useEffect } from 'react';
 import './Attendance.css';
+import { API_BASE_URL } from '../config';
 
 export default function AttendancePage() {
   const [events, setEvents] = useState([]);
@@ -25,7 +26,7 @@ export default function AttendancePage() {
   const fetchEvents = async () => {
     setLoadingEvents(true);
     try {
-      const res = await fetch('http://localhost:5000/api/events');
+      const res = await fetch(`${API_BASE_URL}/events`);
       const data = await res.json();
       if (data.success) {
         setEvents(data.events);
@@ -40,7 +41,7 @@ export default function AttendancePage() {
   const fetchEventAttendance = async (eventId) => {
     setLoadingAttendees(true);
     try {
-      const res = await fetch(`http://localhost:5000/api/attendance?eventId=${encodeURIComponent(eventId)}`);
+      const res = await fetch(`${API_BASE_URL}/attendance?eventId=${encodeURIComponent(eventId)}`);
       const data = await res.json();
       if (data.success) {
         setAttendees(data.attendance);

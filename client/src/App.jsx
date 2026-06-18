@@ -11,6 +11,7 @@ import MyTicketsPage from './pages/MyTicketsPage'
 import NotificationsPage from './pages/NotificationsPage'
 import { auth } from './firebase'
 import { onAuthStateChanged } from 'firebase/auth'
+import { API_BASE_URL } from './config'
 
 /* ─── SVG ICONS (FLAT OUTLINE ICONS) ────────────────────── */
 const Icons = {
@@ -705,7 +706,7 @@ export default function App() {
 
   const fetchAnnouncements = async (email) => {
     try {
-      const res = await fetch(`http://localhost:5000/api/announcements?email=${encodeURIComponent(email)}`);
+      const res = await fetch(`${API_BASE_URL}/announcements?email=${encodeURIComponent(email)}`);
       const data = await res.json();
       if (res.ok && data.success) {
         const fetched = data.announcements || [];

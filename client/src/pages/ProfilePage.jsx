@@ -1,6 +1,7 @@
 import { useState, useEffect } from 'react';
 import { db } from '../firebase';
 import { doc, getDoc, setDoc } from 'firebase/firestore';
+import { API_BASE_URL } from '../config';
 import AvatarInitial from '../components/AvatarInitial';
 import './ProfilePage.css';
 
@@ -51,7 +52,7 @@ export default function ProfilePage({ user }) {
           }
 
           if (profileEmail) {
-            const res = await fetch(`http://localhost:5000/api/my-tickets?email=${encodeURIComponent(profileEmail)}`);
+            const res = await fetch(`${API_BASE_URL}/my-tickets?email=${encodeURIComponent(profileEmail)}`);
             const data = await res.json();
             if (res.ok && data.success) {
               setRegistrations(data.tickets);

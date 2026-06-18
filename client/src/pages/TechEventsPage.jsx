@@ -1,5 +1,6 @@
 import { useState, useMemo, useEffect } from 'react'
 import './TechEvents.css'
+import { API_BASE_URL } from '../config'
 
 /* ─── DATA ─────────────────────────────────────────────── */
 const techEvents = [
@@ -179,7 +180,7 @@ export default function TechEventsPage({ onNavigateToEvent }) {
   const [events, setEvents] = useState(techEvents)
 
   useEffect(() => {
-    fetch('http://localhost:5000/api/events?category=tech')
+    fetch(`${API_BASE_URL}/events?category=tech`)
       .then(res => res.json())
       .then(data => {
         if (data.success && data.events && data.events.length > 0) {

@@ -1,5 +1,6 @@
 import React, { useState, useEffect } from 'react';
 import './RegistrationModal.css';
+import { API_BASE_URL } from '../config';
 
 const Icons = {
   close: (
@@ -239,7 +240,7 @@ export default function RegistrationModal({ event, user, onClose, onSuccess }) {
       const leader = members[0];
       const teamExtras = members.slice(1);
 
-      const API_BASE = 'http://localhost:5000/api';
+      const API_BASE = API_BASE_URL;
       const res = await fetch(`${API_BASE}/register`, {
         method: 'POST',
         headers: { 'Content-Type': 'application/json' },

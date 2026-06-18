@@ -1,5 +1,6 @@
 import { useState, useEffect } from 'react';
 import './ManageEvents.css';
+import { API_BASE_URL } from '../config';
 
 export default function ManageEventsPage() {
   const [events, setEvents] = useState([]);
@@ -43,7 +44,7 @@ export default function ManageEventsPage() {
   const fetchGalleryPhotos = async (eventId) => {
     setGalleryLoading(true);
     try {
-      const res = await fetch(`http://localhost:5000/api/events/${eventId}/photos`);
+      const res = await fetch(`${API_BASE_URL}/events/${eventId}/photos`);
       const data = await res.json();
       if (data.success) {
         setGalleryPhotos(data.photos || []);
@@ -114,7 +115,7 @@ export default function ManageEventsPage() {
     }
     setUploadingPhoto(true);
     try {
-      const res = await fetch(`http://localhost:5000/api/events/${managingGalleryEvent.id}/photos`, {
+      const res = await fetch(`${API_BASE_URL}/events/${managingGalleryEvent.id}/photos`, {
         method: 'POST',
         headers: { 'Content-Type': 'application/json' },
         body: JSON.stringify({
@@ -143,7 +144,7 @@ export default function ManageEventsPage() {
   const handleDeletePhoto = async (photoId) => {
     if (!window.confirm("Are you sure you want to delete this photo?")) return;
     try {
-      const res = await fetch(`http://localhost:5000/api/events/${managingGalleryEvent.id}/photos/${photoId}`, {
+      const res = await fetch(`${API_BASE_URL}/events/${managingGalleryEvent.id}/photos/${photoId}`, {
         method: 'DELETE'
       });
       const data = await res.json();
@@ -161,7 +162,7 @@ export default function ManageEventsPage() {
   const fetchEvents = async () => {
     setLoading(true);
     try {
-      const res = await fetch('http://localhost:5000/api/events');
+      const res = await fetch(`${API_BASE_URL}/events`);
       const data = await res.json();
       if (data.success) {
         setEvents(data.events);
@@ -224,13 +225,13 @@ export default function ManageEventsPage() {
     try {
       let res, data;
       if (editingEvent) {
-        res = await fetch(`http://localhost:5000/api/events/${editingEvent.categoryGroup}/${editingEvent.id}`, {
+        res = await fetch(`${API_BASE_URL}/events/${editingEvent.categoryGroup}/${editingEvent.id}`, {
           method: 'PUT',
           headers: { 'Content-Type': 'application/json' },
           body: JSON.stringify(payload)
         });
       } else {
-        res = await fetch('http://localhost:5000/api/events', {
+        res = await fetch(`${API_BASE_URL}/events`, {
           method: 'POST',
           headers: { 'Content-Type': 'application/json' },
           body: JSON.stringify(payload)
@@ -255,7 +256,7 @@ export default function ManageEventsPage() {
   const handleDeleteEvent = async (eventId) => {
     if (!window.confirm('Are you absolutely sure you want to delete this event? This will invalidate registrations.')) return;
     try {
-      const res = await fetch(`http://localhost:5000/api/events/${selectedGroup}/${eventId}`, {
+      const res = await fetch(`${API_BASE_URL}/events/${selectedGroup}/${eventId}`, {
         method: 'DELETE'
       });
       const data = await res.json();
