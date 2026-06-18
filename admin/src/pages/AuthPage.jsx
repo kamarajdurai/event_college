@@ -65,8 +65,20 @@ export default function AuthPage({ onLogin }) {
       const result = await signInWithPopup(auth, googleProvider)
       await verifyUserRole(result.user)
     } catch (err) {
-      console.error(err)
-      setError('Google Sign-in failed. Please try again.')
+      console.error("Google Sign-in error:", err)
+      let errMsg = 'Google Sign-in failed. Please try again.';
+      if (err.code) {
+        if (err.code === 'auth/operation-not-allowed') {
+          errMsg = 'Google Sign-In is not enabled. Please enable it in Firebase Console -> Authentication -> Sign-in method.';
+        } else if (err.code === 'auth/popup-closed-by-user') {
+          errMsg = 'Sign-in popup was closed before completing. Please try again.';
+        } else if (err.code === 'auth/unauthorized-domain') {
+          errMsg = `This domain is not authorized for OAuth. Please add your current domain/port to Firebase Console -> Authentication -> Settings -> Authorized domains.`;
+        } else {
+          errMsg = `Google Sign-in failed: ${err.message} (${err.code})`;
+        }
+      }
+      setError(errMsg)
       setLoading(false)
     }
   }

@@ -125,9 +125,22 @@ export default function AuthPage({ onLogin }) {
       }
       onLogin(result.user)
     } catch (err) {
-      setError('Google authentication failed. Please try again.')
+      console.error("Google Authentication Error:", err);
+      let errMsg = 'Google authentication failed. Please try again.';
+      if (err.code) {
+        if (err.code === 'auth/operation-not-allowed') {
+          errMsg = 'Google Sign-In is not enabled. Please enable it in Firebase Console -> Authentication -> Sign-in method.';
+        } else if (err.code === 'auth/popup-closed-by-user') {
+          errMsg = 'Sign-in popup was closed before completing. Please try again.';
+        } else if (err.code === 'auth/unauthorized-domain') {
+          errMsg = `This domain is not authorized for OAuth. Please add your current domain/port to Firebase Console -> Authentication -> Settings -> Authorized domains.`;
+        } else {
+          errMsg = `Google authentication failed: ${err.message} (${err.code})`;
+        }
+      }
+      setError(errMsg);
     } finally {
-      setLoading(false)
+      setLoading(false);
     }
   }
 
