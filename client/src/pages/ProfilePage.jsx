@@ -293,7 +293,7 @@ export default function ProfilePage({ user }) {
         {/* LEFT COLUMN */}
         <div className="left-col">
           
-          <div className="profile-card" style={{marginBottom: '24px'}}>
+          <div className="profile-card personal-details-card">
             <div className="card-title">Personal Details</div>
             <div className="details-grid">
               <div className="detail-item">
@@ -392,7 +392,7 @@ export default function ProfilePage({ user }) {
             )}
           </div>
 
-          <div className="profile-card">
+          <div className="profile-card recent-registrations-card">
             <div className="card-title">
               Recent Registrations
               <span className="view-all-link">View All</span>
@@ -444,7 +444,7 @@ export default function ProfilePage({ user }) {
         {/* RIGHT COLUMN */}
         <div className="right-col">
           
-          <div className="profile-card" style={{marginBottom: '24px'}}>
+          <div className="profile-card registration-history-card">
             <div className="card-title">
               Registration History
               <span className="view-all-link">View All</span>

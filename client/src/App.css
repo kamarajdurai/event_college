@@ -1523,7 +1523,10 @@ body.dark-theme .toast-icon {
   }
   
   .topbar-left {
-    flex: 0 0 40px;
+    flex: 0 0 90px;
+    display: flex;
+    align-items: center;
+    justify-content: flex-start;
   }
   
   .topbar-center {
@@ -1534,8 +1537,11 @@ body.dark-theme .toast-icon {
   }
   
   .topbar-right {
-    flex: 0 0 40px;
+    flex: 0 0 90px;
+    display: flex;
+    align-items: center;
     justify-content: flex-end;
+    gap: 8px;
   }
   
   .topbar-logo-mobile {

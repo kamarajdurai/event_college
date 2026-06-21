@@ -333,7 +333,7 @@ function Topbar({ onMenuClick, activeNav, user, onProfileClick, unreadCount, onN
           🔔
           {unreadCount > 0 && <span className="notif-count">{unreadCount}</span>}
         </button>
-        <div className="user-profile desktop-only" onClick={onProfileClick} style={{ cursor: 'pointer' }}>
+        <div className="user-profile" onClick={onProfileClick} style={{ cursor: 'pointer' }}>
           <AvatarInitial
             name={displayName}
             photoURL={user?.photoURL}
