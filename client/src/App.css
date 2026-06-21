@@ -359,7 +359,7 @@ body.dark-theme .nav-subitem.sub-active {
 /* ---------- MAIN CONTENT LAYOUT ---------- */
 .main-content {
   margin-left: var(--sidebar-width);
-  flex: 1;
+  width: calc(100% - var(--sidebar-width));
   display: flex;
   flex-direction: column;
   min-height: 100vh;
@@ -1387,6 +1387,7 @@ body.dark-theme .toast-icon {
   }
   .main-content {
     margin-left: 0;
+    width: 100%;
   }
   .hamburger-btn {
     display: block;
@@ -1668,45 +1669,64 @@ body.dark-theme .glass-featured-widget {
 /* Explore categories mobile compact grids */
 @media (max-width: 768px) {
   .category-grid {
-    grid-template-columns: repeat(3, 1fr) !important;
-    gap: 10px !important;
+    grid-template-columns: 1fr !important;
+    gap: 16px !important;
   }
   
   .category-card {
-    min-height: 110px !important;
-    border-radius: 16px !important;
+    min-height: 150px !important;
+    border-radius: 20px !important;
+  }
+  
+  .category-overlay {
+    background: linear-gradient(180deg, rgba(15, 23, 42, 0.2) 0%, rgba(15, 23, 42, 0.75) 100%) !important;
   }
   
   .category-body {
-    padding: 12px !important;
-    height: 100%;
+    padding: 16px 20px !important;
+    height: auto !important;
+    margin-top: auto;
     display: flex;
     flex-direction: column;
     justify-content: flex-end;
   }
   
   .category-body h3 {
-    font-size: 11px !important;
+    font-size: 18px !important;
     font-weight: 800 !important;
-    margin: 0 !important;
-    text-align: center;
-    line-height: 1.2;
-    text-shadow: 0 1px 4px rgba(0,0,0,0.5);
+    color: #ffffff !important;
+    margin: 0 0 6px !important;
+    text-align: left !important;
+    line-height: 1.25 !important;
+    text-shadow: 0 2px 4px rgba(0,0,0,0.4) !important;
   }
   
-  .category-body p,
+  .category-body p {
+    display: block !important;
+    font-size: 12px !important;
+    color: rgba(255, 255, 255, 0.85) !important;
+    margin: 0 !important;
+    line-height: 1.4 !important;
+    text-align: left !important;
+    text-shadow: 0 1px 3px rgba(0,0,0,0.3) !important;
+  }
+  
   .category-body .explore-btn {
     display: none !important;
   }
   
   .category-header-badge {
-    top: 10px !important;
-    left: 10px !important;
-    width: 28px !important;
-    height: 28px !important;
-    border-radius: 8px !important;
-    font-size: 14px !important;
-    border: 1px solid rgba(255, 255, 255, 0.35) !important;
+    top: 16px !important;
+    left: 16px !important;
+    width: 42px !important;
+    height: 42px !important;
+    border-radius: 50% !important;
+    font-size: 18px !important;
+    background: rgba(255, 255, 255, 0.15) !important;
+    backdrop-filter: blur(8px) !important;
+    -webkit-backdrop-filter: blur(8px) !important;
+    border: none !important;
+    box-shadow: 0 4px 12px rgba(0,0,0,0.15) !important;
   }
 }
 
