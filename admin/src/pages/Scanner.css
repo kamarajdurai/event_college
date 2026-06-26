@@ -382,13 +382,18 @@ body.dark-theme .already-used-banner p {
   color: #f97316;
 }
 
-@media (max-width: 900px) {
-  .scanner-layout {
-    grid-template-columns: 1fr;
-  }
+.sheet-value {
+  font-size: 14px;
+  font-weight: 700;
+  color: var(--text-primary);
+  word-break: break-all;
 }
 
-@media (max-width: 640px) {
+@media (max-width: 768px) {
+  .scanner-layout {
+    grid-template-columns: 1fr;
+    gap: 20px;
+  }
   .scanner-portal {
     padding: 16px;
   }
@@ -401,7 +406,21 @@ body.dark-theme .already-used-banner p {
   .manual-input-wrap button {
     width: 100%;
   }
+  .sheet-header {
+    display: flex;
+    flex-direction: column;
+    align-items: flex-start;
+    gap: 8px;
+  }
+  .status-pill {
+    position: static;
+    margin-bottom: 4px;
+  }
+  .sheet-header h3 {
+    padding-right: 0;
+  }
 }
+
 
 /* MANUAL ENTRY FALLBACK */
 .manual-entry-divider {

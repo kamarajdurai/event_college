@@ -80,6 +80,7 @@ body.dark-theme .status-notification-banner {
   box-shadow: var(--shadow-sm);
   transition: all 0.25s cubic-bezier(0.4, 0, 0.2, 1);
   min-height: 380px;
+  min-width: 0;
 }
 
 body.dark-theme .portal-card {
@@ -313,6 +314,7 @@ body.dark-theme .title-icon {
   border-radius: 20px;
   box-shadow: var(--shadow-sm);
   overflow: hidden;
+  min-width: 0;
 }
 
 body.dark-theme .events-table-card {
@@ -338,6 +340,8 @@ body.dark-theme .table-header-row {
 
 .events-table-wrap {
   overflow-x: auto;
+  -webkit-overflow-scrolling: touch;
+  width: 100%;
 }
 
 .empty-category-notice {
@@ -694,15 +698,28 @@ body.dark-theme .btn-cancel:hover {
 
 @media (max-width: 1024px) {
   .category-portal-grid {
-    grid-template-columns: repeat(2, 1fr);
+    grid-template-columns: repeat(2, minmax(0, 1fr));
     gap: 20px;
   }
 }
 
 @media (max-width: 768px) {
   .category-portal-grid {
-    grid-template-columns: 1fr;
+    grid-template-columns: minmax(0, 1fr);
     gap: 20px;
+  }
+  .portal-card {
+    min-height: auto;
+    padding: 28px 20px;
+  }
+  .portal-icon-box {
+    width: 60px;
+    height: 60px;
+    font-size: 26px;
+    margin-bottom: 16px;
+  }
+  .portal-card p {
+    margin-bottom: 16px;
   }
   .manage-events-page {
     padding: 16px;
@@ -710,14 +727,29 @@ body.dark-theme .btn-cancel:hover {
   .title-left h1 {
     font-size: 20px;
   }
-}
-
-@media (max-width: 640px) {
   .form-row {
     flex-direction: column;
     gap: 16px;
   }
+  .events-table-wrap table th,
+  .events-table-wrap table td {
+    white-space: nowrap;
+  }
 }
+
+@media (max-width: 640px) {
+  .modal-content {
+    max-width: calc(100% - 24px);
+    margin: 12px;
+    max-height: 85vh;
+    border-radius: 16px;
+  }
+  .modal-body {
+    padding: 16px;
+    gap: 12px;
+  }
+}
+
 
 .btn-gallery-manage {
   background: rgba(255, 255, 255, 0.35);

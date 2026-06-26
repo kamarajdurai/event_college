@@ -230,8 +230,12 @@ export default function App() {
       {/* Main Area */}
       <div className="admin-main-wrap">
         <header className="admin-topbar">
-          <button className="hamburger-trigger" onClick={() => setSidebarOpen(o => !o)}>
-            ☰
+          <button className="hamburger-trigger" onClick={() => setSidebarOpen(o => !o)} aria-label="Toggle Sidebar">
+            <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2.5" strokeLinecap="round" strokeLinejoin="round">
+              <line x1="3" y1="12" x2="21" y2="12" />
+              <line x1="3" y1="6" x2="21" y2="6" />
+              <line x1="3" y1="18" x2="21" y2="18" />
+            </svg>
           </button>
           <div className="topbar-title">
             {activeNav === 'dashboard' ? 'Analytics Dashboard' : activeNav === 'manage-events' ? 'Event Catalogue Editor' : activeNav === 'scanner' ? 'Entrance QR Verification' : activeNav === 'broadcast' ? 'Broadcast Alerts Hub' : 'Attendance Register'}
@@ -260,6 +264,63 @@ export default function App() {
             <div style={{ padding: 40, textAlign: 'center' }}>Page not found.</div>
           )}
         </main>
+      </div>
+
+      {/* Mobile Bottom Navigation Bar */}
+      <div className="mobile-bottom-nav">
+        <button 
+          className={`bottom-nav-item ${activeNav === 'dashboard' ? 'active' : ''}`}
+          onClick={() => { setActiveNav('dashboard'); setSidebarOpen(false); }}
+        >
+          {Icons.dashboard}
+          <span>Dashboard</span>
+        </button>
+        
+        {role === 'admin' ? (
+          <button 
+            className={`bottom-nav-item ${activeNav === 'manage-events' ? 'active' : ''}`}
+            onClick={() => { setActiveNav('manage-events'); setSidebarOpen(false); }}
+          >
+            {Icons.manageEvents}
+            <span>Events</span>
+          </button>
+        ) : (
+          <button 
+            className={`bottom-nav-item ${activeNav === 'broadcast' ? 'active' : ''}`}
+            onClick={() => { setActiveNav('broadcast'); setSidebarOpen(false); }}
+          >
+            {Icons.broadcastAlerts}
+            <span>Alerts</span>
+          </button>
+        )}
+
+        <button 
+          className={`bottom-nav-item ${activeNav === 'scanner' ? 'active' : ''}`}
+          onClick={() => { setActiveNav('scanner'); setSidebarOpen(false); }}
+        >
+          {Icons.qrScanner}
+          <span>Scanner</span>
+        </button>
+
+        <button 
+          className={`bottom-nav-item ${activeNav === 'attendance' ? 'active' : ''}`}
+          onClick={() => { setActiveNav('attendance'); setSidebarOpen(false); }}
+        >
+          {Icons.attendanceSheet}
+          <span>Attendance</span>
+        </button>
+
+        <button 
+          className={`bottom-nav-item ${sidebarOpen ? 'active' : ''}`}
+          onClick={() => setSidebarOpen(o => !o)}
+        >
+          <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2.2" strokeLinecap="round" strokeLinejoin="round">
+            <circle cx="12" cy="12" r="1" />
+            <circle cx="19" cy="12" r="1" />
+            <circle cx="5" cy="12" r="1" />
+          </svg>
+          <span>More</span>
+        </button>
       </div>
     </div>
   );

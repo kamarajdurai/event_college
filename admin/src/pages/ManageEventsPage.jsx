@@ -463,7 +463,7 @@ export default function ManageEventsPage() {
           <div className="modal-content" onClick={(e) => e.stopPropagation()}>
             <div className="modal-header">
               <h2>{editingEvent ? 'Edit Event Details' : 'Initialize New Event'}</h2>
-              <button className="modal-close-btn" onClick={() => setShowFormModal(false)}>×</button>
+              <button className="btn-close-modal" onClick={() => setShowFormModal(false)}>×</button>
             </div>
             
             <form onSubmit={handleSaveEvent} className="event-form">
@@ -586,7 +586,7 @@ export default function ManageEventsPage() {
                 </div>
               </div>
 
-              <div className="form-actions">
+              <div className="modal-footer">
                 <button type="button" className="btn-cancel" onClick={() => setShowFormModal(false)}>
                   Cancel
                 </button>
@@ -605,7 +605,7 @@ export default function ManageEventsPage() {
           <div className="modal-content gallery-modal-content" onClick={(e) => e.stopPropagation()}>
             <div className="modal-header">
               <h2>📸 Gallery Manager</h2>
-              <button className="modal-close-btn" onClick={() => setManagingGalleryEvent(null)}>×</button>
+              <button className="btn-close-modal" onClick={() => setManagingGalleryEvent(null)}>×</button>
             </div>
             
             <div className="gallery-manager-body">

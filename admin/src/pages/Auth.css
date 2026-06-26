@@ -274,3 +274,20 @@ body.dark-theme .google-sso-btn:hover {
   line-height: 1.5;
   font-weight: 500;
 }
+
+@media (max-width: 480px) {
+  .admin-auth-card {
+    padding: 28px 20px;
+    border-radius: 20px;
+  }
+  .admin-auth-header {
+    margin-bottom: 20px;
+  }
+  .admin-auth-header h2 {
+    font-size: 20px;
+  }
+  .admin-auth-header p {
+    font-size: 12.5px;
+  }
+}
+
