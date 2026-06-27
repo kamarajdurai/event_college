@@ -25,10 +25,15 @@ const allowedOrigins = [
   'http://localhost:3000',
 ];
 
-if (process.env.FRONTEND_URL) {
-  const origins = process.env.FRONTEND_URL.split(',').map(url => url.trim().replace(/\/$/, ''));
-  allowedOrigins.push(...origins);
-}
+Object.keys(process.env).forEach(key => {
+  if (key.startsWith('FRONTEND_')) {
+    const val = process.env[key];
+    if (val) {
+      const origins = val.split(',').map(url => url.trim().replace(/\/$/, ''));
+      allowedOrigins.push(...origins);
+    }
+  }
+});
 
 app.use(cors({
   origin: allowedOrigins,
