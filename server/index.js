@@ -50,6 +50,13 @@ app.use((req, _res, next) => {
 initFirebase();
 
 // ─── Routes ───────────────────────────────────────────────────────────────────
+app.get('/api/cors-debug', (req, res) => {
+  res.json({
+    FRONTEND_URL: process.env.FRONTEND_URL,
+    allowedOrigins: allowedOrigins
+  });
+});
+
 const registrationRoutes = require('./routes/registration');
 const eventRoutes = require('./routes/events');
 const announcementRoutes = require('./routes/announcements');
